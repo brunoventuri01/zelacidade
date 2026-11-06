@@ -1,0 +1,49 @@
+name: DevSecOps CI
+on:
+  push: {branches: [main]}
+  pull_request: {branches: [main]}
+permissions: {contents: read}
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -r backend/requirements.txt
+      - run: PYTHONPATH=backend pytest -q backend/tests
+      - run: docker compose config -q
+      - run: docker compose build backend frontend
+  gitleaks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: gitleaks/gitleaks-action@v2
+        env: {GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"}
+  semgrep:
+    runs-on: ubuntu-latest
+    container: semgrep/semgrep
+    steps:
+      - uses: actions/checkout@v4
+      - run: semgrep scan --config auto --error backend frontend
+  trivy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aquasecurity/trivy-action@0.28.0
+        with: {scan-type: fs, scan-ref: ., severity: "HIGH,CRITICAL", exit-code: "1", ignore-unfixed: true}
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [test-and-build, gitleaks, semgrep, trivy]
+    runs-on: self-hosted
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy trusted main branch
+        run: |
+          rsync -a --delete --exclude .env --exclude .git ./ /opt/zelacidade/
+          cd /opt/zelacidade
+          docker compose up -d --build --remove-orphans
+          curl --fail --retry 10 --retry-delay 3 http://127.0.0.1/health

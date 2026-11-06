@@ -1,0 +1,9 @@
+cloudstack_api_url    = "https://CLOUDSTACK/client/api"
+cloudstack_api_key    = "SET_VIA_TF_VAR_cloudstack_api_key"
+cloudstack_secret_key = "SET_VIA_TF_VAR_cloudstack_secret_key"
+zone                  = "ZONE_NAME_OR_ID"
+network               = "NETWORK_ID"
+service_offering      = "SERVICE_OFFERING_NAME_OR_ID"
+template              = "UBUNTU_TEMPLATE_NAME_OR_ID"
+ssh_keypair           = "SSH_KEYPAIR_NAME"
+enable_demo_instance  = false
