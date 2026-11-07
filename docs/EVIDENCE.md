@@ -9,7 +9,7 @@
 | Prometheus target da API | `up` validado |
 | Dashboard das quatro métricas | Provisionado; captura pendente |
 | Alerta funcional | Configurado; disparo controlado pendente |
-| GitHub Actions | Criado; execução real pendente |
-| Terraform fmt/validate | Pendente de execução |
-| Terraform plan/apply | Depende de credenciais e autorização de custo |
-| HTTPS | Depende de domínio/DNS |
+| GitHub Actions | Pipeline real validada com análise de segurança, build e deploy |
+| Terraform fmt/validate | Validado localmente |
+| Terraform plan/apply | Não executado: credenciais CloudStack indisponíveis |
+| HTTPS | Certificado Let’s Encrypt para o IP público; renovação automática |

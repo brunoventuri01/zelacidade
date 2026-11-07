@@ -1,6 +1,6 @@
 # ZelaCidade — Global Solution FIAP 2026.2
 
-> Integrantes: **NOME COMPLETO — RM ______**
+> Integrantes: **Bruno Venturi Lopes Vieira — RM 99431**, **Guilherme Alves de Lima — RM 550433** e **Leonardo de Oliveira Ruiz — RM 98901**
 
 Plataforma colaborativa para registrar e acompanhar problemas urbanos, inicialmente focada em mobilidade, buracos e obstáculos.
 
@@ -32,11 +32,11 @@ Nunca versione `.env`, `*.tfvars`, states ou chaves. PostgreSQL não possui port
 
 ## URLs do MVP
 
-- Aplicação: http://200.187.67.91
-- API/OpenAPI: http://200.187.67.91/docs
-- Health: http://200.187.67.91/health
+- Aplicação: https://200.187.67.91
+- API/OpenAPI: https://200.187.67.91/docs
+- Health: https://200.187.67.91/health
 
-HTTPS depende de domínio e DNS válidos.
+HTTPS usa certificado Let’s Encrypt emitido diretamente para o IPv4 público, com renovação automática. O HTTP redireciona para HTTPS.
 
 ## API
 
@@ -51,7 +51,7 @@ HTTPS depende de domínio e DNS válidos.
 
 ## Terraform
 
-O diretório `terraform/` usa o provider CloudStack. A criação fica desabilitada por padrão e depende de credenciais seguras e autorização de custo. A VM principal não é destruída nem recriada.
+O diretório `terraform/` usa o provider CloudStack. A criação fica desabilitada por padrão e a configuração foi validada localmente. Como as credenciais CloudStack não estão disponíveis, `plan`, `apply` e provisionamento real não foram executados. A VM principal não é destruída nem recriada.
 
 ## Observabilidade
 
@@ -67,7 +67,4 @@ Prometheus coleta FastAPI e Node Exporter. O Grafana provisiona o dashboard das 
 ## Pendências externas
 
 - Restringir SSH público e trocar senha temporária ao final.
-- Informar domínio e configurar DNS para TLS válido.
-- Fornecer credenciais CloudStack por canal seguro e autorizar eventual recurso de demonstração.
-- Completar nomes e RMs dos integrantes.
-
+- Fornecer credenciais CloudStack por canal seguro e autorizar eventual recurso de demonstração, caso a FIAP exija execução real do Terraform.

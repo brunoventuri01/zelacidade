@@ -1,0 +1,8 @@
+[Unit]
+Description=Renova o certificado IP do ZelaCidade
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/opt/zelacidade/ops/renew-ip-certificate.sh

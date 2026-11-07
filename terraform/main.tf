@@ -8,5 +8,7 @@ resource "cloudstack_instance" "demo" {
   template         = var.template
   keypair          = var.ssh_keypair
   expunge          = false
-  lifecycle { prevent_destroy = true }
+  lifecycle {
+    prevent_destroy = true
+  }
 }

@@ -1,0 +1,10 @@
+[Unit]
+Description=Verifica a renovacao TLS do ZelaCidade a cada 12 horas
+
+[Timer]
+OnBootSec=15min
+OnUnitActiveSec=12h
+Persistent=true
+
+[Install]
+WantedBy=timers.target
