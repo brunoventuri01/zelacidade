@@ -51,7 +51,7 @@ HTTPS usa certificado Let’s Encrypt emitido diretamente para o IPv4 público, 
 
 ## Terraform
 
-O diretório `terraform/` usa o provider CloudStack. A criação fica desabilitada por padrão e a configuração foi validada localmente. Como as credenciais CloudStack não estão disponíveis, `plan`, `apply` e provisionamento real não foram executados. A VM principal não é destruída nem recriada.
+O diretório `terraform/` usa o provider CloudStack. A criação fica desabilitada por padrão e `fmt`, `init -backend=false` e `validate` foram executados sem credenciais. Como as credenciais CloudStack não estão disponíveis, `plan`, `apply` e provisionamento real não foram executados. A VM principal não é destruída nem recriada.
 
 ## Observabilidade
 
