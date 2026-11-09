@@ -2,7 +2,9 @@ name: DevSecOps CI
 on:
   push: {branches: [main]}
   pull_request: {branches: [main]}
-permissions: {contents: read}
+permissions:
+  contents: read
+  packages: write
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
@@ -43,3 +45,41 @@ jobs:
       - run: terraform -chdir=terraform-azure fmt -check
       - run: terraform -chdir=terraform-azure init -backend=false
       - run: terraform -chdir=terraform-azure validate
+  deploy-azure:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [test-and-build, gitleaks, semgrep, trivy, terraform-validate]
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      IMAGE: ghcr.io/brunoventuri01/zelacidade-web:${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            ${{ env.IMAGE }}
+            ghcr.io/brunoventuri01/zelacidade-web:latest
+          labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
+      - uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Deploy approved container to Azure App Service
+        run: |
+          az webapp config container set \
+            --resource-group rg-zelacidade-gs-99431 \
+            --name app-zelacidade-gs-99431 \
+            --container-image-name "$IMAGE" \
+            --container-registry-url https://ghcr.io
+          az webapp restart \
+            --resource-group rg-zelacidade-gs-99431 \
+            --name app-zelacidade-gs-99431
+          curl --fail --retry 12 --retry-all-errors --retry-delay 10 \
+            https://app-zelacidade-gs-99431.azurewebsites.net
+
