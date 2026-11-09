@@ -59,16 +59,18 @@ resource "azurerm_linux_web_app" "main" {
 
 # Alerta operacional: indica respostas 5xx acima do limite em uma janela curta.
 resource "azurerm_monitor_metric_alert" "http_5xx" {
-  name                = "alert-zelacidade-http5xx"
-  resource_group_name = azurerm_resource_group.main.name
-  scopes              = [azurerm_linux_web_app.main.id]
-  description         = "Alerta quando o ZelaCidade acumula mais de 5 respostas HTTP 5xx em 5 minutos."
-  severity            = 1
-  frequency           = "PT1M"
-  window_size         = "PT5M"
-  auto_mitigate       = true
-  enabled             = true
-  tags                = local.tags
+  name                     = "alert-zelacidade-http5xx"
+  resource_group_name      = azurerm_resource_group.main.name
+  scopes                   = [azurerm_linux_web_app.main.id]
+  target_resource_type     = "Microsoft.Web/sites"
+  target_resource_location = var.location
+  description              = "Alerta quando o ZelaCidade acumula mais de 5 respostas HTTP 5xx em 5 minutos."
+  severity                 = 1
+  frequency                = "PT1M"
+  window_size              = "PT5M"
+  auto_mitigate            = true
+  enabled                  = true
+  tags                     = local.tags
 
   criteria {
     metric_namespace = "Microsoft.Web/sites"
@@ -80,24 +82,27 @@ resource "azurerm_monitor_metric_alert" "http_5xx" {
 }
 
 # Evidencia controlada: permite comprovar o disparo do Azure Monitor sem
-# provocar falha no aplicativo. O limite baixo considera uma janela de 5 min.
+# provocar falha no aplicativo. A janela de 1 h facilita capturar o estado
+# disparado durante a demonstracao sem gerar erros artificiais.
 resource "azurerm_monitor_metric_alert" "traffic_evidence" {
-  name                = "alert-zelacidade-traffic-evidence"
-  resource_group_name = azurerm_resource_group.main.name
-  scopes              = [azurerm_linux_web_app.main.id]
-  description         = "Alerta controlado para evidenciar o funcionamento do monitoramento durante a GS."
-  severity            = 4
-  frequency           = "PT1M"
-  window_size         = "PT5M"
-  auto_mitigate       = true
-  enabled             = true
-  tags                = local.tags
+  name                     = "alert-zelacidade-traffic-evidence"
+  resource_group_name      = azurerm_resource_group.main.name
+  scopes                   = [azurerm_linux_web_app.main.id]
+  target_resource_type     = "Microsoft.Web/sites"
+  target_resource_location = var.location
+  description              = "Alerta controlado para evidenciar o funcionamento do monitoramento durante a GS."
+  severity                 = 4
+  frequency                = "PT1M"
+  window_size              = "PT1H"
+  auto_mitigate            = true
+  enabled                  = true
+  tags                     = local.tags
 
   criteria {
     metric_namespace = "Microsoft.Web/sites"
     metric_name      = "Requests"
     aggregation      = "Total"
     operator         = "GreaterThan"
-    threshold        = 5
+    threshold        = 0
   }
 }
