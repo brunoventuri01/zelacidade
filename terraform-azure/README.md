@@ -11,5 +11,11 @@ Recursos aplicados:
 - Linux Web App com HTTPS obrigatorio;
 - FTP e WebDeploy por autenticacao basica desabilitados;
 - nenhuma porta SSH ou administrativa exposta.
+- alerta operacional de respostas HTTP 5xx;
+- alerta controlado para evidenciar o disparo do Azure Monitor.
+
+A propriedade da imagem é ignorada no ciclo de vida do Terraform porque a
+pipeline é responsável por publicar cada novo SHA. Assim, um novo `apply` não
+desfaz a versão implantada pelo CI/CD.
 
 URL provisoria: <https://app-zelacidade-gs-99431.azurewebsites.net>

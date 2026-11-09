@@ -12,3 +12,11 @@ output "web_app_name" {
   description = "Nome usado pela futura pipeline de deploy."
   value       = azurerm_linux_web_app.main.name
 }
+
+output "monitor_alerts" {
+  description = "Alertas do Azure Monitor criados pelo Terraform."
+  value = {
+    http_5xx         = azurerm_monitor_metric_alert.http_5xx.name
+    traffic_evidence = azurerm_monitor_metric_alert.traffic_evidence.name
+  }
+}
