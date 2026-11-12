@@ -4,15 +4,67 @@
 > Guilherme Alves de Lima — RM 550433  
 > Leonardo de Oliveira Ruiz — RM 98901
 
-Infraestrutura e pipeline DevSecOps da plataforma colaborativa ZelaCidade.
+Plataforma colaborativa para identificar, organizar e acompanhar problemas em espaços públicos: o morador registra com foto e local, a IA de visão sugere a categoria, um robô faz a triagem e a organização responsável só marca como resolvido com foto da solução.
 
 ## Estado atual
 
-A infraestrutura de produção está criada no Azure por Terraform, o pipeline está funcional e o monitoramento está ativo. A URL pública abaixo usa um frontend provisório somente para validar o deploy. **O MVP oficial da equipe ainda será conectado antes da entrega final.**
+A infraestrutura de produção está criada no Azure por Terraform, o pipeline está funcional e o monitoramento está ativo. A URL pública serve o MVP oficial: um único container com a API FastAPI e o site React, na porta 8000, usando Postgres no Neon.
 
-- Aplicação provisória: <https://app-zelacidade-gs-99431.azurewebsites.net>
+- MVP: <https://app-zelacidade-gs-99431.azurewebsites.net>
 - Repositório público: <https://github.com/brunoventuri01/zelacidade>
 - Pipeline de produção validado: <https://github.com/brunoventuri01/zelacidade/actions/runs/42635724419>
+
+## MVP: como rodar no PC
+
+Pré-requisito: Docker com Compose.
+
+```bash
+cp .env.example .env          # troque os CHANGE_ME por valores locais
+docker compose up --build     # sobe db (Postgres) + app em http://localhost:8000
+docker compose exec app python -m app.seed --quantidade 200 --semente 42 --limpar   # dados simulados
+```
+
+Testes:
+
+```bash
+pip install -r backend/requirements-dev.txt
+PYTHONPATH=backend pytest -q backend/tests
+cd frontend && npm ci && npm test && npm run build
+```
+
+Desenvolvimento do site com recarga automática: rode a API (`DATABASE_URL=sqlite:///./local.db uvicorn app.main:app --app-dir backend`) e, em outro terminal, `cd frontend && npm run dev`.
+
+### Estrutura
+
+| Caminho | Conteúdo |
+|---|---|
+| `Dockerfile` | Imagem única: build do React → Python 3.12 slim, usuário não root, porta 8000, `HEALTHCHECK` em `/health` |
+| `backend/app/` | API FastAPI, modelos SQLAlchemy, visão (ONNX), assistente, gerador de dados simulados |
+| `backend/app/data/area_piloto.json` | Área piloto (centro, limites e bairros) em um só arquivo |
+| `backend/models/visao/` | `best.onnx` e `classes.json` do modelo de visão |
+| `backend/tests/` | Testes de contrato, LGPD e decodificação do YOLO |
+| `frontend/` | Site React (Vite): mapa, registro, detalhe, painel, assistente, gestão e privacidade |
+
+### Contratos da API
+
+A documentação interativa fica em `/docs`. Resumo:
+
+| Quem chama | Endpoint | Autenticação |
+|---|---|---|
+| Site | `GET /api/v1/config`, `GET/POST /api/v1/ocorrencias`, `GET /api/v1/ocorrencias/{id}`, `POST /api/v1/ocorrencias/{id}/confirmacoes`, `GET /api/v1/fotos/{id}`, `POST /api/v1/ia/classificar`, `GET /api/v1/painel`, `POST /api/v1/assistente` | pública |
+| Organização (gestão) | `GET /api/v1/gestao/ocorrencias`, `PATCH /api/v1/gestao/ocorrencias/{id}` | `Authorization: Bearer ADMIN_TOKEN` |
+| Robô Maker Lab | `POST /api/v1/robot/occurrences` (resposta traz `protocolo` para o LCD) | `X-API-Key: ROBOT_API_KEY` |
+| Robô RPA | `GET /api/v1/integracao/ocorrencias`, `PATCH /api/v1/integracao/ocorrencias/{id}/triagem`, `POST /api/v1/integracao/painel` | `X-API-Key: RPA_API_KEY` |
+| Airflow (Big Data) | `GET /api/v1/export/ocorrencias?data=AAAA-MM-DD` (NDJSON) | `X-API-Key: EXPORT_API_KEY` |
+| Operação | `GET /health`, `GET /metrics` | pública |
+
+### Segurança e LGPD no MVP
+
+- Credenciais só por variável de ambiente; `CHANGE_ME` ou vazio desliga a integração (HTTP 503).
+- Fotos reduzidas para até 1280 px e regravadas sem EXIF (que pode conter GPS e aparelho).
+- E-mail só com consentimento e nunca nas rotas públicas; o identificador do aparelho é guardado como hash.
+- Cabeçalhos de segurança (CSP, `nosniff`, `Referrer-Policy`) e upload limitado a JPEG/PNG/WEBP de até 5 MB.
+- Dados simulados têm `simulado=true`, selo na tela e filtro; a geração está documentada em `backend/app/seed.py`.
 
 ## Arquitetura
 
@@ -93,7 +145,7 @@ O `apply` deve ser executado apenas pelo responsável pela assinatura. O deploy 
 | Segurança | Gitleaks, Semgrep, Trivy e secrets do GitHub |
 | Observabilidade | Azure Monitor e alertas de métrica |
 | HTTPS | Obrigatório no App Service |
-| MVP oficial | **Pendente de integração pela equipe** |
+| MVP oficial | FastAPI + React em container único (porta 8000), Postgres no Neon |
 
 ## Documentos
 

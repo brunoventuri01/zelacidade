@@ -5,3 +5,8 @@
 *.tfvars
 .terraform.lock.hcl
 uploads/
+node_modules/
+frontend/dist/
+__pycache__/
+.pytest_cache/
+*.db

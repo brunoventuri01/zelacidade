@@ -1,0 +1,10 @@
+{
+  "nome": "Área piloto provisória · Zona Norte de São Paulo",
+  "cidade": "São Paulo",
+  "provisoria": true,
+  "observacao": "Trocar pelo bairro definido pelo grupo. Bairros e limites aqui são provisórios.",
+  "centro": {"latitude": -23.4990, "longitude": -46.6250},
+  "limites": {"sul": -23.5150, "norte": -23.4830, "oeste": -46.6420, "leste": -46.6080},
+  "zoom": 14,
+  "bairros": ["Santana", "Jardim São Paulo", "Mandaqui", "Tucuruvi"]
+}

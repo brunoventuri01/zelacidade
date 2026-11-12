@@ -1,6 +1,10 @@
-fastapi==0.115.14
-uvicorn[standard]==0.34.3
-psycopg[binary]==3.2.9
-prometheus-fastapi-instrumentator==7.1.0
-pydantic==2.11.7
-pytest==8.4.1
+fastapi==0.162.5
+uvicorn==0.54.0
+sqlalchemy==2.1.8
+psycopg[binary]==3.3.8
+pillow==13.0.0
+numpy==2.5.4
+onnxruntime==1.31.1
+httpx==0.28.1
+prometheus-fastapi-instrumentator==8.1.0
+python-multipart==0.0.33

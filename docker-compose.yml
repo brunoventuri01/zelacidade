@@ -1,3 +1,12 @@
+# Para reproduzir e testar o MVP no PC. Em produção, o Azure roda só a imagem do serviço app
+# e o banco é o Postgres do Neon, configurado nos App Settings (DATABASE_URL).
+#
+#   cp .env.example .env    # troque os CHANGE_ME por valores locais
+#   docker compose up --build
+#   docker compose exec app python -m app.seed --quantidade 200 --semente 42 --limpar
+#
+# Monitoramento local (Prometheus + Grafana): docker compose --profile monitoring up
+
 services:
   db:
     image: postgres:16-alpine
@@ -15,44 +24,31 @@ services:
       timeout: 5s
       retries: 10
 
-  backend:
-    build: ./backend
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
     restart: unless-stopped
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       ROBOT_API_KEY: ${ROBOT_API_KEY}
-      UPLOAD_DIR: /data/uploads
-    volumes:
-      - uploads:/data/uploads
+      RPA_API_KEY: ${RPA_API_KEY}
+      EXPORT_API_KEY: ${EXPORT_API_KEY}
+      ADMIN_TOKEN: ${ADMIN_TOKEN}
+      HASH_SALT: ${HASH_SALT}
+      GENAI_API_URL: ${GENAI_API_URL:-}
+      GENAI_API_KEY: ${GENAI_API_KEY:-}
+      GENAI_TIMEOUT: ${GENAI_TIMEOUT:-20}
+      CV_CONF_LIMIAR: ${CV_CONF_LIMIAR:-0.35}
+    ports:
+      - "8000:8000"
     networks: [internal]
     depends_on:
       db:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
-      interval: 15s
-      timeout: 5s
-      retries: 5
-
-  frontend:
-    build: ./frontend
-    restart: unless-stopped
-    networks: [internal]
-
-  proxy:
-    image: nginx:1.27-alpine
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./certbot/conf:/etc/letsencrypt:ro
-      - ./certbot/www:/var/www/certbot:ro
-    networks: [internal]
-    depends_on: [backend, frontend]
 
   prometheus:
+    profiles: [monitoring]
     image: prom/prometheus:v3.5.0
     restart: unless-stopped
     command: ["--config.file=/etc/prometheus/prometheus.yml", "--storage.tsdb.path=/prometheus"]
@@ -65,6 +61,7 @@ services:
     networks: [internal]
 
   node-exporter:
+    profiles: [monitoring]
     image: prom/node-exporter:v1.9.1
     restart: unless-stopped
     command: ["--path.rootfs=/host"]
@@ -73,6 +70,7 @@ services:
     networks: [internal]
 
   grafana:
+    profiles: [monitoring]
     image: grafana/grafana:12.1.0
     restart: unless-stopped
     environment:
@@ -92,6 +90,5 @@ networks:
 
 volumes:
   postgres_data:
-  uploads:
   prometheus_data:
   grafana_data:
