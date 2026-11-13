@@ -41,7 +41,7 @@ class Settings:
     admin_token: str = ""
     genai_api_url: str = ""
     genai_api_key: str = ""
-    genai_timeout: float = 20.0
+    genai_timeout: float = 60.0
     cv_model_path: str = str(BASE_DIR.parent / "models" / "visao" / "best.onnx")
     cv_conf_limiar: float = 0.35
     hash_salt: str = "zelacidade-local"
@@ -69,7 +69,7 @@ class Settings:
             admin_token=_segredo("ADMIN_TOKEN"),
             genai_api_url=_env("GENAI_API_URL"),
             genai_api_key=_segredo("GENAI_API_KEY"),
-            genai_timeout=float(_env("GENAI_TIMEOUT", "20") or 20),
+            genai_timeout=float(_env("GENAI_TIMEOUT", "60") or 60),
             cv_model_path=_env("CV_MODEL_PATH", cls.cv_model_path) or cls.cv_model_path,
             cv_conf_limiar=float(_env("CV_CONF_LIMIAR", "0.35") or 0.35),
             hash_salt=salt,

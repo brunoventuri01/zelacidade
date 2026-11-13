@@ -1,0 +1,41 @@
+{
+  "modelo": "buraco.pt",
+  "opset": 17,
+  "entrada": {
+    "nome": "images",
+    "forma": [
+      1,
+      3,
+      640,
+      640
+    ],
+    "tipo": "float32"
+  },
+  "saida": {
+    "nome": "output0",
+    "forma": [
+      1,
+      5,
+      8400
+    ],
+    "layout": "linhas 0-3 = cx, cy, w, h em pixels do quadro 640 (com borda); linha 4 = score 0-1 (sigmoid já aplicado); sem NMS"
+  },
+  "preprocessamento": {
+    "letterbox": 640,
+    "centralizado": true,
+    "cor_borda": 114,
+    "redimensionamento": "bilinear, mantendo proporção, ganho = min(640/h, 640/w)",
+    "canais": "RGB",
+    "normalizacao": "÷255",
+    "layout": "NCHW"
+  },
+  "posprocessamento": {
+    "limiar_confianca": 0.35,
+    "iou_nms": 0.7,
+    "desfazer_letterbox": "x = (x - borda_x) / ganho; y = (y - borda_y) / ganho; recortar aos limites da imagem"
+  },
+  "severidade": {
+    "area_relativa": "(x2-x1)*(y2-y1) / (largura*altura) na imagem original",
+    "regra": "nenhuma se 0 caixas; alta se maior área ≥ 0.05 ou ≥ 4 caixas; media se maior área ≥ 0.015 ou ≥ 2 caixas; senão baixa"
+  }
+}

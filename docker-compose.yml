@@ -38,7 +38,7 @@ services:
       HASH_SALT: ${HASH_SALT}
       GENAI_API_URL: ${GENAI_API_URL:-}
       GENAI_API_KEY: ${GENAI_API_KEY:-}
-      GENAI_TIMEOUT: ${GENAI_TIMEOUT:-20}
+      GENAI_TIMEOUT: ${GENAI_TIMEOUT:-60}
       CV_CONF_LIMIAR: ${CV_CONF_LIMIAR:-0.35}
     ports:
       - "8000:8000"

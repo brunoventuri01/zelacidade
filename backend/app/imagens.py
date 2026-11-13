@@ -24,6 +24,15 @@ def ler_limitado(arquivo, limite: int = MAX_BYTES) -> bytes:
 
 def preparar_foto(dados: bytes) -> tuple[bytes, int, int]:
     """Devolve (jpeg, largura, altura) já reduzido e sem metadados."""
+    jpeg, largura, altura, _ = preparar_foto_e_imagem(dados)
+    return jpeg, largura, altura
+
+
+def preparar_foto_e_imagem(dados: bytes) -> tuple[bytes, int, int, Image.Image]:
+    """Como preparar_foto, mas devolve também a imagem decodificada (antes da recompressão em JPEG).
+
+    A visão analisa essa imagem: recomprimir em JPEG muda os pixels e derruba caixas perto do limiar.
+    """
     if not dados:
         raise ImagemInvalida("O arquivo da foto está vazio.")
     if len(dados) > MAX_BYTES:
@@ -43,10 +52,5 @@ def preparar_foto(dados: bytes) -> tuple[bytes, int, int]:
     imagem.thumbnail((MAX_LADO, MAX_LADO))
     saida = BytesIO()
     imagem.save(saida, "JPEG", quality=82, optimize=True)  # salvar sem exif= descarta os metadados
-    return saida.getvalue(), imagem.width, imagem.height
+    return saida.getvalue(), imagem.width, imagem.height, imagem
 
-
-def abrir_rgb(jpeg: bytes) -> Image.Image:
-    imagem = Image.open(BytesIO(jpeg))
-    imagem.load()
-    return imagem.convert("RGB")

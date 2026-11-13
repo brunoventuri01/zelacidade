@@ -1,0 +1,162 @@
+{
+  "teste_1.jpg": {
+    "largura": 450,
+    "altura": 300,
+    "n_caixas": 6,
+    "severidade": "alta",
+    "deteccoes": [
+      {
+        "classe": "buraco",
+        "confianca": 0.8903,
+        "bbox_xyxy": [
+          18.1,
+          169.2,
+          298.3,
+          299.9
+        ],
+        "area_relativa": 0.2712
+      },
+      {
+        "classe": "buraco",
+        "confianca": 0.8088,
+        "bbox_xyxy": [
+          270.0,
+          145.3,
+          450.0,
+          198.3
+        ],
+        "area_relativa": 0.0706
+      },
+      {
+        "classe": "buraco",
+        "confianca": 0.7569,
+        "bbox_xyxy": [
+          14.3,
+          113.1,
+          159.0,
+          149.5
+        ],
+        "area_relativa": 0.0391
+      },
+      {
+        "classe": "buraco",
+        "confianca": 0.6278,
+        "bbox_xyxy": [
+          0.0,
+          97.2,
+          59.5,
+          122.6
+        ],
+        "area_relativa": 0.0112
+      },
+      {
+        "classe": "buraco",
+        "confianca": 0.3808,
+        "bbox_xyxy": [
+          5.2,
+          153.3,
+          53.9,
+          176.1
+        ],
+        "area_relativa": 0.0082
+      },
+      {
+        "classe": "buraco",
+        "confianca": 0.3553,
+        "bbox_xyxy": [
+          40.2,
+          50.9,
+          142.1,
+          81.9
+        ],
+        "area_relativa": 0.0234
+      }
+    ]
+  },
+  "teste_2.jpg": {
+    "largura": 506,
+    "altura": 300,
+    "n_caixas": 1,
+    "severidade": "alta",
+    "deteccoes": [
+      {
+        "classe": "buraco",
+        "confianca": 0.8906,
+        "bbox_xyxy": [
+          93.0,
+          95.8,
+          390.9,
+          215.4
+        ],
+        "area_relativa": 0.2348
+      }
+    ]
+  },
+  "teste_3.jpg": {
+    "largura": 720,
+    "altura": 720,
+    "n_caixas": 3,
+    "severidade": "alta",
+    "deteccoes": [
+      {
+        "classe": "buraco",
+        "confianca": 0.874,
+        "bbox_xyxy": [
+          251.2,
+          299.2,
+          475.7,
+          468.7
+        ],
+        "area_relativa": 0.0734
+      },
+      {
+        "classe": "buraco",
+        "confianca": 0.5511,
+        "bbox_xyxy": [
+          0.1,
+          576.0,
+          116.2,
+          720.0
+        ],
+        "area_relativa": 0.0322
+      },
+      {
+        "classe": "buraco",
+        "confianca": 0.3596,
+        "bbox_xyxy": [
+          0.6,
+          576.5,
+          175.8,
+          719.7
+        ],
+        "area_relativa": 0.0484
+      }
+    ]
+  },
+  "teste_4.jpg": {
+    "largura": 720,
+    "altura": 720,
+    "n_caixas": 0,
+    "severidade": "nenhuma",
+    "deteccoes": []
+  },
+  "teste_5.jpg": {
+    "largura": 300,
+    "altura": 300,
+    "n_caixas": 1,
+    "severidade": "alta",
+    "deteccoes": [
+      {
+        "classe": "buraco",
+        "confianca": 0.8366,
+        "bbox_xyxy": [
+          0.0,
+          77.9,
+          269.9,
+          200.8
+        ],
+        "area_relativa": 0.3685
+      }
+    ]
+  }
+}

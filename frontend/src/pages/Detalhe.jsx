@@ -4,7 +4,7 @@ import { api, urlFoto } from '../api.js';
 import { useConfig } from '../App.jsx';
 import Mapa from '../components/Mapa.jsx';
 import { SeloOrigem, SeloPrioridade, SeloStatus } from '../components/Selos.jsx';
-import { comprimirImagem, formatarData, porcentagem, rotulo } from '../util.js';
+import { comprimirImagem, formatarData, porcentagem, rotulo, textoSeveridade } from '../util.js';
 
 const ATORES = {
   morador: 'Morador',
@@ -31,7 +31,8 @@ export default function Detalhe() {
   if (!o) return <p className="carregando" role="status">Carregando ocorrência…</p>;
 
   const categoria = rotulo(config.categorias, o.categoria);
-  const contexto = [categoria, o.severidade_ia ? `severidade ${o.severidade_ia}` : null].filter(Boolean).join(', ');
+  const severidade = textoSeveridade(o.severidade_ia);
+  const contexto = [categoria, severidade ? `severidade ${severidade}` : null].filter(Boolean).join(', ');
   const perguntaPadrao = `O que fazer com: ${categoria.toLowerCase()}?`;
   const consulta = new URLSearchParams();
   consulta.set('pergunta', perguntaPadrao);
@@ -63,7 +64,7 @@ export default function Detalhe() {
             <dt>Sugestão da IA</dt>
             <dd>
               {o.categoria_ia
-                ? `${rotulo(config.categorias, o.categoria_ia)} (${porcentagem(o.confianca_ia)}${o.severidade_ia ? `, severidade ${o.severidade_ia}` : ''})`
+                ? `${rotulo(config.categorias, o.categoria_ia)} (${porcentagem(o.confianca_ia)}${severidade ? `, severidade ${severidade}` : ''})`
                 : 'Sem sugestão automática'}
             </dd>
             <dt>Categoria confirmada</dt>

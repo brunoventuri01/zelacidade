@@ -6,16 +6,17 @@ import json
 import re
 
 from fastapi import APIRouter, Depends, File, Form, Header, HTTPException, Query, Request, Response, UploadFile
+from PIL import Image
 from pydantic import BaseModel, Field
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session, selectinload
 
 from ..db import get_db
 from ..dominio import CATEGORIAS, ORIGENS, PRIORIDADES, STATUS, STATUS_ABERTOS, protocolo
-from ..imagens import ImagemInvalida, abrir_rgb, ler_limitado, preparar_foto
+from ..imagens import ImagemInvalida, ler_limitado, preparar_foto_e_imagem
 from ..models import Confirmacao, Foto, Ocorrencia, PainelSnapshot
 from ..seguranca import hash_dispositivo
-from ..servicos import anexar_foto, iso, publico, registrar_evento
+from ..servicos import anexar_foto, anexar_foto_com_imagem, iso, publico, registrar_evento
 
 router = APIRouter(prefix="/api/v1", tags=["público"])
 
@@ -37,11 +38,11 @@ def _carregar(db: Session, ocorrencia_id: int) -> Ocorrencia:
     return ocorrencia
 
 
-def _analisar(request: Request, jpeg: bytes) -> dict:
+def _analisar(request: Request, imagem: Image.Image) -> dict:
     detector = request.app.state.detector
     if not detector.disponivel:
         return {"disponivel": False, "motivo": "O modelo de visão ainda não foi instalado."}
-    return detector.detectar(abrir_rgb(jpeg))
+    return detector.detectar(imagem)
 
 
 def _tem_arquivo(foto: UploadFile | None) -> bool:
@@ -65,10 +66,10 @@ def configuracao(request: Request):
 @router.post("/ia/classificar")
 def classificar(request: Request, foto: UploadFile = File(...)):
     try:
-        jpeg, _, _ = preparar_foto(ler_limitado(foto.file))
+        _, _, _, imagem = preparar_foto_e_imagem(ler_limitado(foto.file))
     except ImagemInvalida as exc:
         raise HTTPException(422, str(exc)) from exc
-    return _analisar(request, jpeg)
+    return _analisar(request, imagem)
 
 
 @router.post("/ocorrencias", status_code=201)
@@ -115,11 +116,11 @@ def criar_ocorrencia(
     ia = None
     if _tem_arquivo(foto):
         try:
-            registro = anexar_foto(db, ocorrencia, ler_limitado(foto.file), "registro")
+            _, imagem = anexar_foto_com_imagem(db, ocorrencia, ler_limitado(foto.file), "registro")
         except ImagemInvalida as exc:
             db.rollback()
             raise HTTPException(422, str(exc)) from exc
-        ia = _analisar(request, registro.conteudo)
+        ia = _analisar(request, imagem)
         if ia.get("disponivel"):
             ocorrencia.categoria_ia = ia.get("categoria_sugerida")
             ocorrencia.confianca_ia = ia.get("confianca")

@@ -4,9 +4,10 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
+from PIL import Image
 from sqlalchemy.orm import Session
 
-from .imagens import preparar_foto
+from .imagens import preparar_foto_e_imagem
 from .models import Evento, Foto, Ocorrencia, agora
 
 
@@ -81,7 +82,12 @@ def registrar_evento(db: Session, ocorrencia: Ocorrencia, tipo: str, descricao: 
 
 
 def anexar_foto(db: Session, ocorrencia: Ocorrencia, dados: bytes, tipo: str) -> Foto:
-    jpeg, largura, altura = preparar_foto(dados)
+    return anexar_foto_com_imagem(db, ocorrencia, dados, tipo)[0]
+
+
+def anexar_foto_com_imagem(db: Session, ocorrencia: Ocorrencia, dados: bytes, tipo: str) -> tuple[Foto, Image.Image]:
+    """Guarda a foto tratada e devolve também a imagem decodificada, que é a analisada pela visão."""
+    jpeg, largura, altura, imagem = preparar_foto_e_imagem(dados)
     foto = Foto(ocorrencia=ocorrencia, tipo=tipo, conteudo=jpeg, largura=largura, altura=altura)
     db.add(foto)
-    return foto
+    return foto, imagem

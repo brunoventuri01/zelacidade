@@ -13,6 +13,13 @@ export function rotulo(lista, valor) {
   return lista?.find((item) => item.valor === valor)?.rotulo ?? valor ?? '—';
 }
 
+const SEVERIDADES = { alta: 'alta', media: 'média', baixa: 'baixa' };
+
+// Texto da severidade da visão; "nenhuma" (sem buraco) não é exibida.
+export function textoSeveridade(severidade) {
+  return SEVERIDADES[severidade] ?? '';
+}
+
 export function porcentagem(valor) {
   if (valor === null || valor === undefined || Number.isNaN(Number(valor))) return '—';
   return `${Math.round(Number(valor) * 100)}%`;

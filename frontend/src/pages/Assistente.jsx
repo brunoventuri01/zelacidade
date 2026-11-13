@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { api } from '../api.js';
 
+const RISCOS = { baixo: 'baixo', medio: 'médio', alto: 'alto' };
+
 export default function Assistente() {
   const [params] = useSearchParams();
   const [pergunta, setPergunta] = useState(params.get('pergunta') ?? '');
@@ -47,9 +49,13 @@ export default function Assistente() {
         />
         {contexto && <p className="discreto">Contexto enviado junto: {contexto}</p>}
         <button type="submit" className="botao" disabled={enviando}>
-          {enviando ? 'Consultando a base oficial…' : 'Perguntar'}
+          {enviando ? 'Pensando…' : 'Perguntar'}
         </button>
-        {enviando && <p className="discreto" role="status">Pode levar até 20 segundos.</p>}
+        {enviando && (
+          <p className="discreto" role="status">
+            Consultando a base oficial. A IA roda num computador sem placa de vídeo e pode levar até 1 minuto.
+          </p>
+        )}
       </form>
 
       <div aria-live="polite">
@@ -104,13 +110,16 @@ function Resposta({ resposta }) {
     <section className="resposta">
       <h2>Resposta</h2>
       {resposta.recusou ? (
-        <p className="aviso">Não consta na base oficial do assistente. Para não inventar, ele não responde a esta pergunta.</p>
+        <p className="aviso">
+          {resposta.resposta || 'Não consta na base oficial do assistente. Para não inventar, ele não responde a esta pergunta.'}
+        </p>
       ) : (
         <p className="resposta__texto">{resposta.resposta}</p>
       )}
-      {resposta.risco && <p className="discreto">Risco estimado: {resposta.risco}</p>}
+      {RISCOS[resposta.risco] && <p className="discreto">Risco estimado: {RISCOS[resposta.risco]}</p>}
       <Fontes fontes={resposta.fontes} />
       <p className="discreto">Resposta gerada por IA a partir de documentos oficiais. Confira a fonte antes de agir.</p>
+      {resposta.aviso && <p className="discreto">{resposta.aviso}</p>}
     </section>
   );
 }

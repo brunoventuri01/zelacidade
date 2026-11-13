@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { api } from '../api.js';
 import { useConfig } from '../App.jsx';
 import Mapa from '../components/Mapa.jsx';
-import { comprimirImagem, porcentagem, rotulo } from '../util.js';
+import { comprimirImagem, porcentagem, rotulo, textoSeveridade } from '../util.js';
 
 export default function Registrar() {
   const config = useConfig();
@@ -207,7 +207,7 @@ function SugestaoIa({ ia, config }) {
     <p className="aviso aviso--ia">
       A IA sugere <strong>{rotulo(config.categorias, ia.categoria_sugerida)}</strong> com{' '}
       {porcentagem(ia.confianca)} de confiança
-      {ia.severidade ? `, severidade ${ia.severidade}` : ''}. Confira e confirme a categoria abaixo: quem decide é você.
+      {textoSeveridade(ia.severidade) ? `, severidade ${textoSeveridade(ia.severidade)}` : ''}. Confira e confirme a categoria abaixo: quem decide é você.
     </p>
   );
 }

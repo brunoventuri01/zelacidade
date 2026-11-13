@@ -17,16 +17,53 @@ from PIL import Image
 log = logging.getLogger("zelacidade.visao")
 
 
+def _coeficientes(n_destino: int, n_origem: int):
+    """Coeficientes do cv2.INTER_LINEAR em ponto fixo (escala 2048), com as mesmas regras de borda."""
+    pos = ((np.arange(n_destino) + 0.5) * (n_origem / n_destino) - 0.5).astype(np.float32)
+    i0 = np.floor(pos).astype(np.int32)
+    frac = (pos - i0).astype(np.float32)
+    antes = i0 < 0
+    frac[antes], i0[antes] = 0, 0
+    depois = i0 >= n_origem - 1
+    frac[depois], i0[depois] = 0, n_origem - 1
+    i1 = np.minimum(i0 + 1, n_origem - 1)
+    return i0, i1, np.rint((1.0 - frac) * 2048).astype(np.int32), np.rint(frac * 2048).astype(np.int32)
+
+
+def redimensionar_bilinear(arr: np.ndarray, nova_l: int, nova_a: int) -> np.ndarray:
+    """Reproduz bit a bit o cv2.resize(INTER_LINEAR) que o YOLO usa no letterbox, sem depender do OpenCV.
+
+    O Pillow suaviza ao reduzir e arredonda diferente; isso muda as notas em até 0,008 e derruba caixas
+    perto do limiar. Esta versão segue o caminho vetorizado do OpenCV e reproduz o esperado.json do Guilherme.
+    """
+    altura, largura = arr.shape[:2]
+    if (largura, altura) == (nova_l, nova_a):
+        return arr
+    x0, x1, a0, a1 = _coeficientes(nova_l, largura)
+    y0, y1, b0, b1 = _coeficientes(nova_a, altura)
+    origem = arr.astype(np.int32)
+    horizontal = origem[:, x0] * a0[None, :, None] + origem[:, x1] * a1[None, :, None]
+    cima = ((horizontal[y0] >> 4) * b0[:, None, None]) >> 16
+    baixo = ((horizontal[y1] >> 4) * b1[:, None, None]) >> 16
+    return np.clip((cima + baixo + 2) >> 2, 0, 255).astype(np.uint8)
+
+
 def letterbox(imagem: Image.Image, tamanho: int = 640, cor: int = 114):
-    """Redimensiona mantendo a proporção e completa com borda cinza (padrão do YOLO)."""
+    """Letterbox centralizado do Ultralytics: ganho = min(640/h, 640/w), borda cinza 114, RGB ÷255, NCHW.
+
+    Devolve (tensor, ganho, borda_x, borda_y). A imagem é colada na borda arredondada, mas para desfazer o
+    letterbox vale a borda fracionária (ex.: 106,5 px), como no config.json do Guilherme.
+    """
     largura, altura = imagem.size
     escala = min(tamanho / largura, tamanho / altura)
-    nova_l, nova_a = round(largura * escala), round(altura * escala)
-    tela = Image.new("RGB", (tamanho, tamanho), (cor, cor, cor))
-    pad_x, pad_y = (tamanho - nova_l) // 2, (tamanho - nova_a) // 2
-    tela.paste(imagem.resize((nova_l, nova_a), Image.BILINEAR), (pad_x, pad_y))
-    tensor = np.asarray(tela, dtype=np.float32).transpose(2, 0, 1)[None] / 255.0
-    return np.ascontiguousarray(tensor), escala, pad_x, pad_y
+    nova_l, nova_a = int(round(largura * escala)), int(round(altura * escala))
+    borda_x, borda_y = (tamanho - nova_l) / 2, (tamanho - nova_a) / 2
+    topo_x, topo_y = int(round(borda_x - 0.1)), int(round(borda_y - 0.1))
+    tela = np.full((tamanho, tamanho, 3), cor, dtype=np.uint8)
+    redim = redimensionar_bilinear(np.asarray(imagem.convert("RGB")), nova_l, nova_a)
+    tela[topo_y:topo_y + nova_a, topo_x:topo_x + nova_l] = redim
+    tensor = tela.astype(np.float32).transpose(2, 0, 1)[None] / 255.0
+    return np.ascontiguousarray(tensor), escala, borda_x, borda_y
 
 
 def nms(caixas: np.ndarray, scores: np.ndarray, limiar_iou: float) -> list[int]:
@@ -81,27 +118,29 @@ def decodificar_saida(saida, limiar, limiar_iou, escala, pad_x, pad_y, largura, 
         y2 = float(np.clip((caixa[3] - pad_y) / escala, 0, altura))
         resultado.append({
             "classe": nomes.get(str(int(classe)), str(int(classe))),
-            "confianca": round(float(score), 3),
-            "bbox": [round(x1), round(y1), round(x2), round(y2)],
+            "confianca": round(float(score), 4),
+            "bbox": [round(x1, 1), round(y1, 1), round(x2, 1), round(y2, 1)],
+            "area_relativa": round((x2 - x1) * (y2 - y1) / max(largura * altura, 1), 4),
         })
     return sorted(resultado, key=lambda c: c["confianca"], reverse=True)
 
 
-def severidade(caixas: list[dict], largura: int, altura: int) -> str | None:
-    """Regra PROVISÓRIA pela área da maior caixa. Será trocada pela regra do /detectar do Guilherme."""
+def severidade(caixas: list[dict]) -> str:
+    """Regra do Guilherme (a mesma do /detectar), aplicada depois do limiar e do NMS:
+    0 caixas → nenhuma; maior área ≥ 0,05 ou ≥ 4 caixas → alta; maior área ≥ 0,015 ou ≥ 2 caixas → media;
+    senão baixa. A área é relativa à imagem original."""
     if not caixas:
-        return None
-    maior = max((c["bbox"][2] - c["bbox"][0]) * (c["bbox"][3] - c["bbox"][1]) for c in caixas)
-    fracao = maior / max(largura * altura, 1)
-    if fracao >= 0.15:
+        return "nenhuma"
+    maior = max(c["area_relativa"] for c in caixas)
+    if maior >= 0.05 or len(caixas) >= 4:
         return "alta"
-    if fracao >= 0.05:
+    if maior >= 0.015 or len(caixas) >= 2:
         return "media"
     return "baixa"
 
 
 class DetectorBuracos:
-    def __init__(self, caminho_modelo: str, limiar: float = 0.35, limiar_iou: float = 0.45, tamanho: int = 640):
+    def __init__(self, caminho_modelo: str, limiar: float = 0.35, limiar_iou: float = 0.7, tamanho: int = 640):
         self.caminho = Path(caminho_modelo)
         self.limiar = limiar
         self.limiar_iou = limiar_iou
@@ -159,7 +198,8 @@ class DetectorBuracos:
             "disponivel": True,
             "categoria_sugerida": melhor["classe"] if melhor else None,
             "confianca": melhor["confianca"] if melhor else None,
-            "severidade": severidade(caixas, imagem.width, imagem.height),
+            "severidade": severidade(caixas),
+            "n_caixas": len(caixas),
             "caixas": caixas[:10],
             "modelo": self.nome_modelo,
             "limiar": self.limiar,

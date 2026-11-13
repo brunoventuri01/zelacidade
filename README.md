@@ -41,8 +41,9 @@ Desenvolvimento do site com recarga automática: rode a API (`DATABASE_URL=sqlit
 | `Dockerfile` | Imagem única: build do React → Python 3.12 slim, usuário não root, porta 8000, `HEALTHCHECK` em `/health` |
 | `backend/app/` | API FastAPI, modelos SQLAlchemy, visão (ONNX), assistente, gerador de dados simulados |
 | `backend/app/data/area_piloto.json` | Área piloto (centro, limites e bairros) em um só arquivo |
-| `backend/models/visao/` | `best.onnx` e `classes.json` do modelo de visão |
-| `backend/tests/` | Testes de contrato, LGPD e decodificação do YOLO |
+| `backend/models/visao/` | Modelo de visão do Guilherme (YOLO11n v1, classe `buraco`): `best.onnx`, `classes.json`, `config.json` |
+| `backend/app/data/trechos.json` | 47 trechos oficiais da base do assistente, usados no modo offline |
+| `backend/tests/` | Testes de contrato, LGPD, assistente e regressão do modelo (`tests/visao/`: 5 fotos + `esperado.json`) |
 | `frontend/` | Site React (Vite): mapa, registro, detalhe, painel, assistente, gestão e privacidade |
 
 ### Contratos da API
