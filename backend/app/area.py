@@ -20,6 +20,7 @@ class AreaPiloto:
     leste: float
     zoom: int
     bairros: tuple[str, ...]
+    centros_bairros: tuple[tuple[str, float, float], ...] = ()
 
     @classmethod
     def carregar(cls, caminho: str) -> "AreaPiloto":
@@ -37,6 +38,10 @@ class AreaPiloto:
             leste=float(limites["leste"]),
             zoom=int(dados.get("zoom", 14)),
             bairros=tuple(dados["bairros"]),
+            centros_bairros=tuple(
+                (nome, float(c["latitude"]), float(c["longitude"]))
+                for nome, c in (dados.get("centros_bairros") or {}).items()
+            ),
         )
 
     def contem(self, latitude: float, longitude: float) -> bool:
@@ -51,4 +56,11 @@ class AreaPiloto:
             "limites": {"sul": self.sul, "norte": self.norte, "oeste": self.oeste, "leste": self.leste},
             "zoom": self.zoom,
             "bairros": list(self.bairros),
+            "centros_bairros": {nome: {"latitude": lat, "longitude": lon} for nome, lat, lon in self.centros_bairros},
         }
+
+    def centro_do_bairro(self, bairro: str) -> tuple[float, float] | None:
+        for nome, lat, lon in self.centros_bairros:
+            if nome == bairro:
+                return lat, lon
+        return None

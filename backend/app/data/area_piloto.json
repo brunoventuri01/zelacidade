@@ -1,10 +1,16 @@
 {
-  "nome": "Área piloto provisória · Zona Norte de São Paulo",
+  "nome": "Área piloto · Subprefeitura Santana/Tucuruvi (Zona Norte de São Paulo)",
   "cidade": "São Paulo",
-  "provisoria": true,
-  "observacao": "Trocar pelo bairro definido pelo grupo. Bairros e limites aqui são provisórios.",
-  "centro": {"latitude": -23.4990, "longitude": -46.6250},
-  "limites": {"sul": -23.5150, "norte": -23.4830, "oeste": -46.6420, "leste": -46.6080},
-  "zoom": 14,
-  "bairros": ["Santana", "Jardim São Paulo", "Mandaqui", "Tucuruvi"]
+  "provisoria": false,
+  "observacao": "Definida pelo grupo em 15/11/2026. Os limites são um retângulo aproximado que envolve os distritos de Santana, Tucuruvi e Mandaqui (inclui o Jardim São Paulo) e pode pegar trechos de bairros vizinhos. Os centros dos bairros são aproximados (Google Maps; em Santana, a estação de metrô).",
+  "centro": {"latitude": -23.4865, "longitude": -46.6210},
+  "limites": {"sul": -23.5180, "norte": -23.4550, "oeste": -46.6480, "leste": -46.5940},
+  "zoom": 13,
+  "bairros": ["Santana", "Jardim São Paulo", "Mandaqui", "Tucuruvi"],
+  "centros_bairros": {
+    "Santana": {"latitude": -23.5025, "longitude": -46.6251},
+    "Jardim São Paulo": {"latitude": -23.4947, "longitude": -46.6194},
+    "Mandaqui": {"latitude": -23.4821, "longitude": -46.6259},
+    "Tucuruvi": {"latitude": -23.4739, "longitude": -46.6108}
+  }
 }

@@ -8,7 +8,7 @@ Regras da geração (semente fixa, mesma saída a cada execução):
 - datas de criação uniformes entre --inicio e --fim (padrão: 01/10/2026 a hoje), entre 7h e 21h;
 - categorias com pesos: buraco 35%, calçada 18%, iluminação 15%, obstáculo 10%, lixo 10%,
   equipamento 7%, outro 5%;
-- localização uniforme dentro dos limites da área piloto, com o bairro coerente com a posição;
+- bairro sorteado e localização em volta do centro dele (desvio de ~650 m), sem sair da área piloto;
 - triagem em média 6 h depois (distribuição exponencial); 8% duplicadas e 7% pedindo informação;
 - das triadas, ~30% entram em andamento (1 a 5 dias) e ~40% são resolvidas (2 a 15 dias), com uma
   foto de resolução gerada e marcada "SIMULADO";
@@ -89,12 +89,19 @@ def gerar(db: Session, area: AreaPiloto, quantidade: int, semente: int, inicio: 
             criado = agora_ - timedelta(minutes=rng.randint(5, 600))
         confirmacoes = min(8, int(rng.expovariate(1 / (3 if categoria == "buraco" else 1.5))))
         com_email = rng.random() < 0.5
+        centro = area.centro_do_bairro(area.bairros[indice_bairro])
+        if centro:  # em volta do centro do bairro (~650 m), sem sair da área piloto
+            latitude = round(min(max(rng.gauss(centro[0], 0.006), area.sul), area.norte), 6)
+            longitude = round(min(max(rng.gauss(centro[1], 0.006), area.oeste), area.leste), 6)
+        else:  # sem centros: uma faixa de longitude por bairro
+            latitude = round(rng.uniform(area.sul, area.norte), 6)
+            longitude = round(rng.uniform(oeste, oeste + largura_faixa), 6)
         o = Ocorrencia(
             categoria=categoria,
             descricao=rng.choice(DESCRICOES[categoria]),
             bairro=area.bairros[indice_bairro],
-            latitude=round(rng.uniform(area.sul, area.norte), 6),
-            longitude=round(rng.uniform(oeste, oeste + largura_faixa), 6),
+            latitude=latitude,
+            longitude=longitude,
             origem="simulado",
             simulado=True,
             confirmacoes=confirmacoes,

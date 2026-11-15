@@ -8,9 +8,9 @@ Arquivos entregues pelo Guilherme Alves de Lima (disciplina Applied Computer Vis
 | `classes.json` | `{"0": "buraco"}` |
 | `config.json` | Pré e pós-processamento usados no treino e no `esperado.json` |
 
-**v1:** treinada só com o dataset público Pothole (Roboflow, licença ODbL v1.0). mAP50 de 0,79 no teste. A v2,
-com imagens de ruas brasileiras, chega até 16/11 no mesmo formato: basta trocar o `best.onnx` e atualizar
-`backend/tests/visao/esperado.json`.
+**Versão final (v1):** treinada só com o dataset público Pothole (Roboflow, licença ODbL v1.0). No conjunto de teste
+(67 imagens, 177 buracos): mAP50 de 0,793 e, no limiar de 0,35 que o MVP usa, precisão de 0,79 e recall de 0,68.
+Não haverá v2. Se o modelo for trocado um dia, atualize também `backend/tests/visao/esperado.json`.
 
 ## Contrato usado pelo backend (`app/visao.py`)
 

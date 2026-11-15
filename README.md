@@ -6,6 +6,22 @@
 
 Plataforma colaborativa para identificar, organizar e acompanhar problemas em espaços públicos: o morador registra com foto e local, a IA de visão sugere a categoria, um robô faz a triagem e a organização responsável só marca como resolvido com foto da solução.
 
+## Ficha técnica do ZelaCidade
+
+| Item | Descrição |
+|---|---|
+| Nome | ZelaCidade |
+| Cidadão e território | Moradores da Zona Norte de São Paulo, na área da Subprefeitura Santana/Tucuruvi: Santana, Jardim São Paulo, Mandaqui e Tucuruvi |
+| Problema | Buracos, calçadas danificadas, iluminação apagada, obstáculos e lixo em espaços públicos ficam sem registro organizado, sem prioridade clara e sem retorno para quem avisou |
+| Proposta de valor | Registrar leva cerca de 1 minuto, com foto e local; a IA sugere a categoria; a comunidade confirma; um robô faz a triagem com motivo explicável; a organização responsável vê primeiro o que é urgente e só fecha a ocorrência com foto da solução |
+| Componentes | MVP web (FastAPI + React) · visão computacional (YOLO11n em ONNX) · assistente com base de documentos oficiais (IA generativa) · robô de triagem (RPA com BotCity) · pipeline de dados (Airflow + Databricks) · robô Maker Lab "Roberto" (Arduino com sensor de distância) · Azure com Terraform, CI/CD DevSecOps e monitoramento |
+| Fontes de dados | Registros do MVP (moradores, robô Maker e dados simulados marcados como tal) · Open-Meteo (chuva e temperatura) · 47 trechos de 19 fontes oficiais (base do assistente) · Pothole Dataset do Roboflow (treino da visão) |
+| Modelos de IA | YOLO11n ajustado para "buraco": mAP50 de 0,793 e, no limiar de 0,35, precisão de 0,79 e recall de 0,68 (67 imagens de teste) · modelo de linguagem local com recuperação de trechos oficiais (repo de GenAI) |
+| Indicadores | Negócio: organizações em piloto, conversão de piloto para pago, receita recorrente mensal e cancelamentos. Impacto: ocorrências confirmadas, tempo médio de triagem, porcentagem resolvida com evidência e moradores ativos por mês |
+| ODS | 11 (metas 11.3 e 11.7) e 9 (meta 9.1) |
+| MVP | <https://app-zelacidade-gs-99431.azurewebsites.net> |
+| Repositórios | MVP e nuvem: <https://github.com/brunoventuri01/zelacidade> · Big Data: <https://github.com/leooruiz/zelacidade-bigdata> · RPA: <https://github.com/leooruiz/zelacidade-rpa> · IA generativa: <https://github.com/GuiAlves2005/zelacidade-genai> · Visão computacional: <https://github.com/GuiAlves2005/zelacidade-cv> · Maker Lab: link a definir |
+
 ## Estado atual
 
 A infraestrutura de produção está criada no Azure por Terraform, o pipeline está funcional e o monitoramento está ativo. A URL pública serve o MVP oficial: um único container com a API FastAPI e o site React, na porta 8000, usando Postgres no Neon.
@@ -40,7 +56,7 @@ Desenvolvimento do site com recarga automática: rode a API (`DATABASE_URL=sqlit
 |---|---|
 | `Dockerfile` | Imagem única: build do React → Python 3.12 slim, usuário não root, porta 8000, `HEALTHCHECK` em `/health` |
 | `backend/app/` | API FastAPI, modelos SQLAlchemy, visão (ONNX), assistente, gerador de dados simulados |
-| `backend/app/data/area_piloto.json` | Área piloto (centro, limites e bairros) em um só arquivo |
+| `backend/app/data/area_piloto.json` | Área piloto (Subprefeitura Santana/Tucuruvi): centro, limites, bairros e centro de cada bairro |
 | `backend/models/visao/` | Modelo de visão do Guilherme (YOLO11n v1, classe `buraco`): `best.onnx`, `classes.json`, `config.json` |
 | `backend/app/data/trechos.json` | 47 trechos oficiais da base do assistente, usados no modo offline |
 | `backend/tests/` | Testes de contrato, LGPD, assistente e regressão do modelo (`tests/visao/`: 5 fotos + `esperado.json`) |
@@ -134,7 +150,7 @@ terraform plan -var="subscription_id=<ID_DA_ASSINATURA>"
 
 O `apply` deve ser executado apenas pelo responsável pela assinatura. O deploy da aplicação ocorre pela pipeline, usando `AZURE_CREDENTIALS` nos GitHub Secrets.
 
-## Ficha técnica
+## Ficha técnica da infraestrutura
 
 | Item | Situação |
 |---|---|

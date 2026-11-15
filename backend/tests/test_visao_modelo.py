@@ -1,7 +1,7 @@
 """Regressão da integração com o modelo do Guilherme: o backend tem de reproduzir o esperado.json.
 
 O esperado.json é o que o modelo responde (não é gabarito): a teste_4 sai sem caixas e serve para o
-caminho "nenhuma detecção". Ao trocar o best.onnx (ex.: v2), atualize também tests/visao/esperado.json.
+caminho "nenhuma detecção". Se o best.onnx for trocado, atualize também tests/visao/esperado.json.
 """
 
 import json
