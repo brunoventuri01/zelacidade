@@ -1,24 +1,26 @@
 # Estimativa de custos
 
-## Configuração atual
+Atualizada em 15/11/2026 para a configuracao efetivamente implantada.
 
-| Componente | Plano | Estimativa atual |
-|---|---|---|
-| Azure App Service Plan | Linux F1 | Sem cobrança enquanto permanecer dentro do plano gratuito |
-| Azure Web App | Vinculado ao F1 | Incluído no plano |
-| GitHub Container Registry | Repositório público | Sem custo previsto para o volume acadêmico |
-| GitHub Actions | Repositório público | Sem custo previsto para o volume acadêmico |
-| Azure Monitor | Métricas de plataforma e dois alertas | Uso acadêmico mínimo; acompanhar a tela de custos da assinatura |
+| Componente | Plano ou cota | Estimativa mensal |
+|---|---|---:|
+| Azure App Service | Linux F1: 60 minutos de CPU/dia, 1 GB de RAM e 1 GB de disco | US$ 0 |
+| Azure Monitor | Metricas de plataforma e 2 series de alerta; primeiras 10 series gratuitas | US$ 0 |
+| Neon PostgreSQL | Free: 1 GB por projeto, 100 CU-h/mes e scale-to-zero | US$ 0 |
+| GitHub Actions | Runners padrao em repositorio publico | US$ 0 |
+| GitHub Container Registry | Pacote publico | US$ 0 |
+| Dominio e HTTPS | Subdominio `azurewebsites.net` e certificado gerenciado | US$ 0 |
+| **Total atual** | Dentro das cotas gratuitas | **US$ 0/mes** |
 
-Não há VM, disco gerenciado, IP público dedicado ou banco de dados provisionado nesta etapa. Portanto, esses itens não geram custo agora.
+Nao existem VM, disco gerenciado, IP publico dedicado, Kubernetes ou banco Azure no ambiente atual.
 
-## Controle de custo
+O F1 nao possui SLA e e indicado somente para experimentacao e demonstracao. Ao exceder cotas ou migrar para producao, os primeiros itens a reavaliar sao o plano do App Service, o armazenamento e compute do Neon e a observabilidade. Qualquer mudanca deve ser calculada nas ferramentas oficiais e revisada em um novo `terraform plan`.
 
-- manter o App Service no SKU `F1`;
-- não criar recursos manualmente fora do Terraform;
-- revisar `terraform plan` antes de cada `apply`;
-- configurar orçamento/alerta de custo se a assinatura disponibilizar o recurso;
-- reavaliar custo ao integrar banco, armazenamento de fotos ou outros serviços do MVP.
+Fontes oficiais consultadas em 15/11/2026:
 
-Valores comerciais podem mudar e devem ser confirmados na calculadora oficial do Azure antes de qualquer migração para plano pago.
+- <https://azure.microsoft.com/en-us/pricing/details/app-service/linux/>
+- <https://azure.microsoft.com/en-us/pricing/details/monitor/>
+- <https://neon.com/blog/neon-free-plan-1-gb-per-project>
+- <https://docs.github.com/en/billing/concepts/product-billing/github-actions>
+- <https://docs.github.com/en/billing/concepts/product-billing/github-packages>
 
