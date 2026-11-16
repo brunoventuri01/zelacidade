@@ -18,7 +18,16 @@ Atualizado em 15/11/2026. Todos os itens abaixo foram executados e verificados.
 | Dados do MVP | 200 ocorrencias simuladas no Neon | Concluido |
 | Maker Lab | Registro do Roberto: protocolo `ZC-000201` | Concluido |
 | Alerta 5xx | `alert-zelacidade-http5xx` | Ativo |
-| Alerta controlado | `alert-zelacidade-traffic-evidence` | Ativo |
+| Alerta controlado | `alert-zelacidade-traffic-evidence` | Disparado (`Unhealthy`) |
+
+## Evidencia do alerta disparado
+
+Em 15/11/2026, a consulta ao endpoint de estado da regra no Azure Resource Manager
+retornou `status: Unhealthy` para `alert-zelacidade-traffic-evidence`, com timestamp
+`2026-11-13T16:38:32.338Z`. Em alertas de metrica do Azure, esse estado significa
+que a condicao configurada foi atingida. A regra controlada monitora `Requests > 0`,
+com janela de uma hora e avaliacao a cada minuto. A regra operacional de HTTP 5xx
+permanece separada e ativa.
 
 ## Resultado observado no deploy final
 
