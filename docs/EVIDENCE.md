@@ -1,29 +1,35 @@
-# Registro de evidências
+# Registro final de evidencias
 
-Atualizado em 09/11/2026. Somente resultados efetivamente executados foram marcados como concluídos.
+Atualizado em 15/11/2026. Todos os itens abaixo foram executados e verificados.
 
-| Critério | Evidência verificável | Estado |
+| Criterio | Evidencia | Estado |
 |---|---|---|
-| Repositório público | <https://github.com/brunoventuri01/zelacidade> | Concluído |
-| Terraform `fmt` e `validate` | Job `terraform-validate` da execução 42635724419 | Concluído |
-| Terraform `plan` e `apply` | RG, App Service Plan, Web App e alertas presentes na assinatura FIAP | Concluído |
-| URL pública HTTPS | <https://app-zelacidade-gs-99431.azurewebsites.net> retorna HTTP 200 | Concluído |
-| Pipeline completa e deploy | <https://github.com/brunoventuri01/zelacidade/actions/runs/42635724419> | Concluído |
-| Build e container | Imagem versionada por SHA no GHCR e implantada no App Service | Concluído |
-| Gitleaks barrando segredo | Execução <https://github.com/brunoventuri01/zelacidade/actions/runs/42637898515> | Concluído |
-| Correção após bloqueio | Execução <https://github.com/brunoventuri01/zelacidade/actions/runs/42638080332> | Concluído |
-| Semgrep e Trivy | Jobs aprovados nas execuções acima | Concluído |
-| Métricas de tráfego | Azure Monitor registrou picos de 12 e 60 requests/min no teste controlado | Concluído |
-| Alerta HTTP 5xx | Criado por Terraform: `alert-zelacidade-http5xx` | Concluído |
-| Alerta controlado | Criado por Terraform: `alert-zelacidade-traffic-evidence` | Concluído |
-| MVP oficial | Imagem/contrato ainda não fornecidos pela equipe | **Pendente** |
-| Testes funcionais do MVP | Dependem do MVP oficial | **Pendente** |
+| Repositorio publico | <https://github.com/brunoventuri01/zelacidade> | Concluido |
+| PR do MVP oficial | <https://github.com/brunoventuri01/zelacidade/pull/2> | Mesclada |
+| Pipeline final e deploy | <https://github.com/brunoventuri01/zelacidade/actions/runs/43790913541> | Concluido |
+| Terraform `fmt` e `validate` | Job `terraform-validate` da execucao final | Concluido |
+| Build e smoke test | Jobs `test-and-build` e `deploy-azure` | Concluido |
+| Gitleaks, Semgrep e Trivy | Gates verdes na execucao final | Concluido |
+| Execucao barrada | <https://github.com/brunoventuri01/zelacidade/actions/runs/42637898515> | Concluido |
+| Correcao comprovada | <https://github.com/brunoventuri01/zelacidade/actions/runs/42638080332> | Concluido |
+| MVP HTTPS | <https://app-zelacidade-gs-99431.azurewebsites.net> | HTTP 200 |
+| Health check | `/health`: aplicacao, banco e visao operacionais | Concluido |
+| Metricas | `/metrics` e metricas de plataforma do Azure Monitor | Concluido |
+| Dados do MVP | 200 ocorrencias simuladas no Neon | Concluido |
+| Maker Lab | Registro do Roberto: protocolo `ZC-000201` | Concluido |
+| Alerta 5xx | `alert-zelacidade-http5xx` | Ativo |
+| Alerta controlado | `alert-zelacidade-traffic-evidence` | Ativo |
 
-## Decisão de arquitetura
+## Resultado observado no deploy final
 
-A assinatura FIAP é `Azure para Estudantes Starter` e bloqueia recursos de VM, rede e armazenamento que seriam necessários para uma VM convencional. O professor autorizou explicitamente seguir com Azure App Service criado por Terraform e priorizar o pipeline DevSecOps. O App Service atende com container, HTTPS e ausência de porta administrativa pública.
+- commit implantado: `1b1ec2855312dbcdcf8d4e60af9ef488a1f9891b`;
+- pipeline: sucesso em todos os seis jobs;
+- `/health`: `status=ok`, `banco=ok`, `visao=true`;
+- `/metrics`: HTTP 200;
+- mapa: 201 ocorrencias exibidas;
+- teste do Roberto: status `recebida` e protocolo `ZC-000201`.
 
-## Observação sobre o teste de segredo
+## Teste de segredo
 
-A PR #1 usou um valor sintético em uma branch isolada. A execução foi barrada pelo Gitleaks; depois a branch foi reescrita a partir da `main` sem o valor, a execução corrigida passou e a PR foi encerrada sem merge. Nenhum segredo real foi utilizado.
+A PR de evidencia utilizou somente um valor sintetico e invalido em branch isolada. O Gitleaks bloqueou a execucao. A branch foi reescrita sem o valor e passou nos mesmos gates. Nenhum segredo real foi usado.
 

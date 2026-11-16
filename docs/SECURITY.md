@@ -1,34 +1,33 @@
-# Segurança e responsabilidade compartilhada
+# Seguranca, LGPD e responsabilidade compartilhada
 
-## Microsoft Azure
+## Microsoft Azure e Neon
 
-Responsável pela segurança física, datacenters, hipervisor e disponibilidade da plataforma gerenciada.
+Os provedores respondem por seguranca fisica, datacenters, hipervisor e operacao da plataforma gerenciada dentro dos planos contratados.
 
 ## Equipe ZelaCidade
 
-Responsável por código, dependências, imagens, identidades, segredos, configuração do App Service, dados e regras do MVP.
+A equipe responde por codigo, dependencias, imagens, identidades, segredos, configuracao do App Service, autorizacao das rotas, finalidade dos dados, retencao e exclusao.
 
-Controles já aplicados:
+Controles implementados:
 
-- acesso público somente por HTTPS;
-- nenhuma VM, SSH ou porta administrativa pública;
-- FTP e WebDeploy com autenticação básica desabilitados;
-- credencial de deploy limitada ao Web App e armazenada em GitHub Secrets;
-- imagens versionadas pelo SHA do commit;
-- Gitleaks, Semgrep e Trivy bloqueiam a pipeline;
-- `*.tfstate`, planos, `*.tfvars`, `.env` e chaves permanecem fora do Git;
-- alertas de erros HTTP 5xx e tráfego controlado gerenciados por Terraform.
+- container multi-stage e usuario nao root (`uid 10001`);
+- acesso publico apenas por HTTPS;
+- nenhuma VM, SSH, RDP ou porta administrativa publica;
+- credencial de deploy e chaves armazenadas em GitHub Secrets ou Azure App Settings;
+- imagem versionada pelo SHA do commit;
+- Gitleaks, Semgrep, Trivy e testes bloqueantes;
+- `tfstate`, planos, `tfvars`, `.env` e chaves fora do Git;
+- cabecalhos CSP, `nosniff`, `Referrer-Policy` e `Permissions-Policy`;
+- upload limitado a JPEG, PNG ou WEBP de ate 5 MB;
+- imagens reduzidas e regravadas sem EXIF;
+- e-mail opcional e condicionado a consentimento;
+- identificador do dispositivo armazenado como hash;
+- registros simulados identificados por `simulado=true`, selo e filtro;
+- alertas de HTTP 5xx e trafego gerenciados por Terraform.
 
 ## LGPD
 
-Fotos, descrição e geolocalização podem identificar pessoas ou rotinas e devem ser tratadas com finalidade explícita, minimização, retenção limitada, controle de acesso e processo de exclusão. Rostos e placas devem ser evitados ou anonimizados.
+Fotos, descricoes e geolocalizacao sao dados potencialmente identificaveis. O MVP aplica minimizacao, remove EXIF, orienta a evitar rostos e placas, separa simulacoes e nao publica e-mail nas rotas publicas.
 
-Antes do MVP oficial entrar em produção, a equipe deve definir:
-
-- política de retenção e exclusão;
-- autenticação e autorização de usuários;
-- validação e limite de uploads;
-- gestão e rotação dos segredos reais;
-- backup e restauração dos dados;
-- canal para solicitações do titular.
+Para uso real alem da demonstracao academica, a equipe deve formalizar prazo de retencao, processo de exclusao, canal para solicitacoes do titular, rotacao periodica de segredos e rotina de backup e restauracao.
 
