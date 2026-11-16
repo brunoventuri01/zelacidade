@@ -1,110 +1,122 @@
-import os
+"""Aplicação do ZelaCidade: API + site React no mesmo container (porta 8000)."""
+
+from __future__ import annotations
+
+import logging
 from contextlib import asynccontextmanager
-from datetime import datetime, timezone
-from typing import Literal
+from pathlib import Path
 
-import psycopg
-from fastapi import Depends, FastAPI, Header, HTTPException, status
+from fastapi import FastAPI, Request
+from fastapi.middleware.gzip import GZipMiddleware
+from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
+from prometheus_client import CollectorRegistry
 from prometheus_fastapi_instrumentator import Instrumentator
-from pydantic import BaseModel, Field
+from sqlalchemy import text
+from sqlalchemy.orm import sessionmaker
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
-DATABASE_URL = os.environ["DATABASE_URL"]
-ROBOT_API_KEY = os.environ["ROBOT_API_KEY"]
+from . import models  # noqa: F401  (registra as tabelas no Base)
+from .area import AreaPiloto
+from .assistente import Assistente
+from .config import Settings
+from .db import Base, criar_engine
+from .routers import gestao, integracao, publico, robo
+from .visao import DetectorBuracos
 
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
 
-def connection():
-    return psycopg.connect(DATABASE_URL)
-
-
-@asynccontextmanager
-async def lifespan(_: FastAPI):
-    with connection() as conn:
-        conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS occurrences (
-              id BIGSERIAL PRIMARY KEY,
-              kind TEXT NOT NULL,
-              description TEXT NOT NULL,
-              latitude DOUBLE PRECISION,
-              longitude DOUBLE PRECISION,
-              source TEXT NOT NULL DEFAULT 'citizen',
-              robot_id TEXT,
-              distance_cm DOUBLE PRECISION,
-              simulated BOOLEAN NOT NULL DEFAULT FALSE,
-              created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-            )
-            """
-        )
-    yield
+CSP = (
+    "default-src 'self'; img-src 'self' data: blob: https://tile.openstreetmap.org; "
+    "style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; "
+    "frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+)
+SEM_CSP = ("/docs", "/redoc", "/openapi.json")
 
 
-app = FastAPI(title="ZelaCidade API", version="0.1.0", lifespan=lifespan)
-Instrumentator().instrument(app).expose(app, include_in_schema=False)
+class SPAStaticFiles(StaticFiles):
+    """Serve o React compilado; rotas do site (ex.: /ocorrencias/12) caem no index.html."""
+
+    async def get_response(self, path: str, scope):
+        try:
+            return await super().get_response(path, scope)
+        except StarletteHTTPException as exc:
+            if exc.status_code == 404 and not path.startswith("api"):
+                return await super().get_response("index.html", scope)
+            raise
 
 
-class OccurrenceIn(BaseModel):
-    kind: str = Field(min_length=2, max_length=80)
-    description: str = Field(min_length=3, max_length=1000)
-    latitude: float | None = Field(default=None, ge=-90, le=90)
-    longitude: float | None = Field(default=None, ge=-180, le=180)
+async def cabecalhos_de_seguranca(request: Request, call_next):
+    resposta = await call_next(request)
+    resposta.headers.setdefault("X-Content-Type-Options", "nosniff")
+    resposta.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    resposta.headers.setdefault("Permissions-Policy", "camera=(self), geolocation=(self), microphone=()")
+    if not request.url.path.startswith(SEM_CSP):
+        resposta.headers.setdefault("Content-Security-Policy", CSP)
+    if request.url.path.startswith("/assets/"):
+        resposta.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+    return resposta
 
 
-class RobotOccurrenceIn(BaseModel):
-    robot_id: str = Field(min_length=2, max_length=80)
-    event_type: Literal["obstacle", "pothole", "other"]
-    distance_cm: float = Field(gt=0, le=1000)
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    test_location: str = Field(min_length=2, max_length=200)
-    simulated: bool
-    latitude: float | None = Field(default=None, ge=-90, le=90)
-    longitude: float | None = Field(default=None, ge=-180, le=180)
+def health(request: Request):
+    """Usado pelo HEALTHCHECK do container, pelo smoke test do CI e pelo monitor de disponibilidade."""
+    estado = request.app.state
+    try:
+        with estado.engine.connect() as conexao:
+            conexao.execute(text("SELECT 1"))
+    except Exception:
+        logging.getLogger("zelacidade").exception("Banco indisponível no /health")
+        return JSONResponse({"status": "erro", "banco": "indisponivel"}, status_code=503)
+    return {
+        "status": "ok",
+        "banco": "ok",
+        "visao": estado.detector.disponivel,
+        "assistente": estado.assistente.configurado,
+    }
 
 
-def require_robot_key(x_api_key: str = Header(...)):
-    if x_api_key != ROBOT_API_KEY:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API key")
+def create_app(settings: Settings | None = None) -> FastAPI:
+    settings = settings or Settings.from_env()
+    engine = criar_engine(settings.database_url)
+
+    @asynccontextmanager
+    async def lifespan(_: FastAPI):
+        Base.metadata.create_all(engine)
+        yield
+        engine.dispose()
+
+    app = FastAPI(
+        title="ZelaCidade API",
+        version="1.0.0",
+        description="Zeladoria colaborativa: registro com foto, triagem automática e indicadores.",
+        lifespan=lifespan,
+    )
+    app.state.settings = settings
+    app.state.engine = engine
+    app.state.sessionmaker = sessionmaker(bind=engine, expire_on_commit=False)
+    app.state.area = AreaPiloto.carregar(settings.area_piloto_path)
+    app.state.detector = DetectorBuracos(settings.cv_model_path, settings.cv_conf_limiar)
+    app.state.assistente = Assistente(
+        settings.genai_api_url, settings.genai_api_key, settings.genai_timeout, settings.trechos_path
+    )
+
+    app.add_middleware(GZipMiddleware, minimum_size=1000)
+    app.middleware("http")(cabecalhos_de_seguranca)
+
+    Instrumentator(registry=CollectorRegistry(), excluded_handlers=["/metrics", "/health"]).instrument(
+        app
+    ).expose(app, include_in_schema=False)
+
+    app.add_api_route("/health", health, methods=["GET"], tags=["operação"])
+    app.include_router(publico.router)
+    app.include_router(gestao.router)
+    app.include_router(integracao.router)
+    app.include_router(robo.router)
+
+    estatico = Path(settings.static_dir) if settings.static_dir else None
+    if estatico and (estatico / "index.html").is_file():
+        app.mount("/", SPAStaticFiles(directory=estatico, html=True), name="site")
+    return app
 
 
-@app.get("/health")
-def health():
-    with connection() as conn:
-        conn.execute("SELECT 1")
-    return {"status": "ok"}
-
-
-@app.post("/api/v1/occurrences", status_code=201)
-def create_occurrence(item: OccurrenceIn):
-    with connection() as conn:
-        row = conn.execute(
-            """INSERT INTO occurrences(kind, description, latitude, longitude)
-               VALUES (%s, %s, %s, %s) RETURNING id, created_at""",
-            (item.kind, item.description, item.latitude, item.longitude),
-        ).fetchone()
-    return {"id": row[0], "created_at": row[1]}
-
-
-@app.get("/api/v1/occurrences")
-def list_occurrences():
-    with connection() as conn:
-        rows = conn.execute(
-            """SELECT id, kind, description, latitude, longitude, source,
-                      robot_id, distance_cm, simulated, created_at
-               FROM occurrences ORDER BY created_at DESC LIMIT 200"""
-        ).fetchall()
-    keys = ["id", "kind", "description", "latitude", "longitude", "source", "robot_id", "distance_cm", "simulated", "created_at"]
-    return [dict(zip(keys, row)) for row in rows]
-
-
-@app.post("/api/v1/robot/occurrences", status_code=201, dependencies=[Depends(require_robot_key)])
-def create_robot_occurrence(item: RobotOccurrenceIn):
-    description = f"{item.event_type} detectado em {item.test_location}"
-    with connection() as conn:
-        row = conn.execute(
-            """INSERT INTO occurrences(kind, description, latitude, longitude, source,
-                                          robot_id, distance_cm, simulated, created_at)
-               VALUES (%s, %s, %s, %s, 'robot', %s, %s, %s, %s)
-               RETURNING id, created_at""",
-            (item.event_type, description, item.latitude, item.longitude, item.robot_id,
-             item.distance_cm, item.simulated, item.timestamp),
-        ).fetchone()
-    return {"id": row[0], "created_at": row[1]}
+app = create_app()

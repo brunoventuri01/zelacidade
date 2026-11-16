@@ -13,10 +13,26 @@ jobs:
         with: {fetch-depth: 0}
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
-      - run: pip install -r backend/requirements.txt
+      - run: pip install -r backend/requirements-dev.txt
       - run: PYTHONPATH=backend pytest -q backend/tests
+      - uses: actions/setup-node@v4
+        with: {node-version: "22", cache: npm, cache-dependency-path: frontend/package-lock.json}
+      - run: npm ci --no-audit --no-fund
+        working-directory: frontend
+      - run: npm test
+        working-directory: frontend
+      - run: npm run build
+        working-directory: frontend
+      - run: cp .env.example .env
       - run: docker compose config -q
-      - run: docker compose build backend frontend
+      - run: docker compose build app
+      - name: Smoke test da stack (db + app) com docker compose
+        run: |
+          docker compose up -d --wait app
+          curl --fail --retry 10 --retry-all-errors --retry-delay 3 http://localhost:8000/health
+          curl --fail --silent http://localhost:8000/ | grep -q '<div id="root">'
+      - if: always()
+        run: docker compose down -v
   gitleaks:
     runs-on: ubuntu-latest
     steps:
@@ -29,7 +45,7 @@ jobs:
     container: semgrep/semgrep
     steps:
       - uses: actions/checkout@v4
-      - run: semgrep scan --config auto --error backend frontend
+      - run: semgrep scan --config auto --error backend frontend Dockerfile
   trivy:
     runs-on: ubuntu-latest
     steps:
@@ -61,7 +77,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/build-push-action@v6
         with:
-          context: ./frontend
+          context: .
+          file: ./Dockerfile
           push: true
           tags: |
             ${{ env.IMAGE }}
@@ -81,5 +98,5 @@ jobs:
             --resource-group rg-zelacidade-gs-99431 \
             --name app-zelacidade-gs-99431
           curl --fail --retry 12 --retry-all-errors --retry-delay 10 \
-            https://app-zelacidade-gs-99431.azurewebsites.net
+            https://app-zelacidade-gs-99431.azurewebsites.net/health
 

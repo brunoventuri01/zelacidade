@@ -44,5 +44,5 @@ flowchart TB
 
 ## Limite atual
 
-O App Service serve um frontend provisório para validar todo o caminho de produção. A infraestrutura não pressupõe a implementação do MVP; a imagem oficial será integrada quando a equipe responsável entregá-la.
+O App Service roda um único container com a API FastAPI e o site React, na porta 8000. O banco é o Postgres gerenciado do Neon, com a `DATABASE_URL` somente nos App Settings. O plano F1 tem 60 minutos de CPU por dia e 1 GB de RAM: por isso a aplicação roda com um worker e carrega o modelo de visão só no primeiro uso.
 

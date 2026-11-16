@@ -1,0 +1,425 @@
+[
+  {
+    "id": "T001",
+    "titulo": "O que é o serviço de tapa-buraco",
+    "texto": "O tapa-buraco é um reparo no asfalto em que a equipe da Prefeitura retira o asfalto velho em volta do buraco e preenche a área com asfalto novo. O pedido deve ser feito quando o morador encontra um buraco no asfalto que pode provocar acidentes ou estragar veículos.",
+    "categoria": "buraco_via",
+    "orgao": "Subprefeitura Sapopemba / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/sapopemba/w/zeladoria_urbana/116576",
+    "fonte_id": "F01"
+  },
+  {
+    "id": "T002",
+    "titulo": "Canais e custo do tapa-buraco",
+    "texto": "O tapa-buraco pode ser solicitado pelo aplicativo SP156, pelo Portal de Atendimento SP156, pela Central SP156 (telefone 156) ou presencialmente nas praças de atendimento das subprefeituras. O serviço é gratuito para o morador.",
+    "categoria": "buraco_via",
+    "orgao": "Subprefeitura Sapopemba / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/sapopemba/w/zeladoria_urbana/116576",
+    "fonte_id": "F01"
+  },
+  {
+    "id": "T003",
+    "titulo": "Etapas do atendimento de tapa-buraco",
+    "texto": "Depois do pedido, a solicitação vai para a Supervisão Técnica de Manutenção (STM) da subprefeitura. Um técnico vistoria o local e programa o serviço de acordo com a urgência; em seguida um supervisor emite a ordem de serviço e uma equipe contratada corta e remove o asfalto em volta do buraco, raspa a área e aplica o asfalto novo.",
+    "categoria": "buraco_via",
+    "orgao": "Subprefeitura Sapopemba / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/sapopemba/w/zeladoria_urbana/116576",
+    "fonte_id": "F01"
+  },
+  {
+    "id": "T004",
+    "titulo": "Buraco aberto por concessionária",
+    "texto": "Se o buraco foi aberto pela Sabesp, pela Comgás ou por outra concessionária de serviço público, a responsabilidade de fechar o buraco e consertar o asfalto é da própria concessionária. Nesse caso a Prefeitura encaminha a solicitação para a empresa e finaliza o pedido no seu sistema.",
+    "categoria": "buraco_via",
+    "orgao": "Subprefeitura Sapopemba / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/sapopemba/w/zeladoria_urbana/116576",
+    "fonte_id": "F01"
+  },
+  {
+    "id": "T005",
+    "titulo": "Buraco causado por galeria de águas pluviais",
+    "texto": "Quando o buraco é consequência de um problema em uma galeria subterrânea que conduz água da chuva, a Supervisão Técnica de Manutenção primeiro conserta a galeria e só depois executa o tapa-buraco.",
+    "categoria": "buraco_via",
+    "orgao": "Subprefeitura Sapopemba / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/sapopemba/w/zeladoria_urbana/116576",
+    "fonte_id": "F01"
+  },
+  {
+    "id": "T006",
+    "titulo": "Chuva e recapeamento",
+    "texto": "Para garantir a qualidade, o tapa-buraco não é feito em dias de chuva, o que pode alterar a programação. O tapa-buraco também não substitui o recapeamento da rua: se a via tem muitos buracos, o morador deve pedir o recapeamento como um serviço separado.",
+    "categoria": "buraco_via",
+    "orgao": "Subprefeitura Sapopemba / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/sapopemba/w/zeladoria_urbana/116576",
+    "fonte_id": "F01"
+  },
+  {
+    "id": "T007",
+    "titulo": "Caminho no aplicativo SP156 e WhatsApp",
+    "texto": "No aplicativo SP156, o pedido de tapa-buraco fica em 'Rua e bairro', depois 'Reparos em asfaltos' e por fim 'Tapa-buraco'. A solicitação também pode ser feita pelo Portal SP156 ou pelo WhatsApp da Prefeitura, no número (11) 3230-5156.",
+    "categoria": "canais",
+    "orgao": "Subprefeitura Ipiranga / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/ipiranga/w/opera%C3%A7%C3%A3o-tapa-buraco-no-ipiranga-saiba-como-solicitar-o-servi%C3%A7o",
+    "fonte_id": "F02"
+  },
+  {
+    "id": "T008",
+    "titulo": "O que informar no pedido de tapa-buraco",
+    "texto": "Ao registrar o pedido, informe o endereço completo com um ponto de referência, a data em que o problema foi percebido e envie uma foto nítida do trecho danificado, de forma que o buraco fique bem visível para facilitar a vistoria.",
+    "categoria": "canais",
+    "orgao": "Subprefeitura Ipiranga / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/ipiranga/w/opera%C3%A7%C3%A3o-tapa-buraco-no-ipiranga-saiba-como-solicitar-o-servi%C3%A7o",
+    "fonte_id": "F02"
+  },
+  {
+    "id": "T009",
+    "titulo": "Operação tapa-buraco e urgência",
+    "texto": "A Operação Tapa-Buraco funciona todos os dias, em turnos diurno e noturno, priorizando as demandas registradas e o mapeamento de desgaste do asfalto. Como o atendimento é feito por urgência, um buraco que represente risco imediato deve ser registrado o quanto antes.",
+    "categoria": "buraco_via",
+    "orgao": "Subprefeitura Ipiranga / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/ipiranga/w/opera%C3%A7%C3%A3o-tapa-buraco-no-ipiranga-saiba-como-solicitar-o-servi%C3%A7o",
+    "fonte_id": "F02"
+  },
+  {
+    "id": "T010",
+    "titulo": "Prazos e acompanhamento no SP156",
+    "texto": "Pelo aplicativo SP156 é possível pedir serviços de zeladoria, iluminação pública, tapa-buraco e poda de árvores e acompanhar o andamento da solicitação em tempo real. Cada tipo de solicitação tem um prazo de resposta próprio, que varia de 5 a 60 dias conforme o serviço.",
+    "categoria": "canais",
+    "orgao": "Subprefeitura Lapa / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/lapa/w/sp156-o-atendimento-da-prefeitura-de-s%C3%A3o-paulo-na-palma-da-sua-m%C3%A3o",
+    "fonte_id": "F14"
+  },
+  {
+    "id": "T011",
+    "titulo": "Solicitação Inteligente do SP156",
+    "texto": "O aplicativo SP156 tem a função Solicitação Inteligente, que usa inteligência artificial com reconhecimento de imagem: o morador tira ou escolhe uma foto e o sistema sugere automaticamente o serviço correspondente. Na fase inicial, seis serviços podiam ser identificados dessa forma, entre eles tapa-buraco e reparos em viadutos.",
+    "categoria": "canais",
+    "orgao": "SMIT / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/inovacao/w/sp156-utiliza-intelig%C3%AAncia-artificial-para-facilitar-o-atendimento-aos-cidad%C3%A3os",
+    "fonte_id": "F12"
+  },
+  {
+    "id": "T012",
+    "titulo": "Tamanho do SP156",
+    "texto": "Segundo a Secretaria Municipal de Inovação e Tecnologia, o SP156 reúne mais de 700 serviços, recebe mais de 10 milhões de acessos e resolve cerca de 2 milhões de solicitações por ano, sendo apresentado como a maior central de atendimento de uma cidade da América Latina.",
+    "categoria": "canais",
+    "orgao": "SMIT / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/inovacao/w/sp156-utiliza-intelig%C3%AAncia-artificial-para-facilitar-o-atendimento-aos-cidad%C3%A3os",
+    "fonte_id": "F12"
+  },
+  {
+    "id": "T013",
+    "titulo": "Atendimento da CET pelo 156",
+    "texto": "Desde novembro de 2019, o contato com a CET para registrar ocorrências de trânsito e pedir informações sobre interdições de vias, rodízio, multas e guincho é feito pelo SP156 (telefone, portal ou aplicativo). O antigo número 1188 da CET foi desativado e incorporado à central da Prefeitura.",
+    "categoria": "canais",
+    "orgao": "PMSP",
+    "link": "https://prefeitura.sp.gov.br/w/noticia/lembre-se-cet-agora-e-156",
+    "fonte_id": "F13"
+  },
+  {
+    "id": "T014",
+    "titulo": "Quem é responsável pela calçada",
+    "texto": "Pelo Decreto 59.671/2020, a implantação, conservação e manutenção da calçada em frente a imóvel particular é responsabilidade do proprietário, do possuidor, do titular do domínio útil ou da nua propriedade, ou do condomínio. Em frente a imóveis públicos, a responsabilidade é da União, do Estado ou do Município, conforme o caso. Os responsáveis respondem solidariamente pela regularidade da calçada e pelas penalidades.",
+    "categoria": "calcada",
+    "orgao": "Prefeitura de Sao Paulo",
+    "link": "https://saopaulo.sp.leg.br/iah/fulltext/decretos/D59671.pdf",
+    "fonte_id": "F03"
+  },
+  {
+    "id": "T015",
+    "titulo": "Faixa livre: largura e inclinação",
+    "texto": "A faixa livre é a parte da calçada destinada exclusivamente à circulação de pedestres. Ela deve ter no mínimo 1,20 m de largura, inclinação transversal de no máximo 3% e ocupar pelo menos metade da largura da calçada quando esta tiver mais de 2,40 m.",
+    "categoria": "calcada",
+    "orgao": "Prefeitura de Sao Paulo",
+    "link": "https://saopaulo.sp.leg.br/iah/fulltext/decretos/D59671.pdf",
+    "fonte_id": "F03"
+  },
+  {
+    "id": "T016",
+    "titulo": "Faixa livre: superfície e obstáculos",
+    "texto": "A faixa livre deve ter superfície regular, firme, contínua e antiderrapante, sem causar trepidação em cadeiras de rodas ou carrinhos, e deve acompanhar a inclinação da rua. Ela precisa ficar livre de qualquer obstáculo, mobiliário, vegetação ou rebaixamento de acesso de veículos.",
+    "categoria": "calcada",
+    "orgao": "Prefeitura de Sao Paulo",
+    "link": "https://saopaulo.sp.leg.br/iah/fulltext/decretos/D59671.pdf",
+    "fonte_id": "F03"
+  },
+  {
+    "id": "T017",
+    "titulo": "Faixa de serviço e faixa de acesso",
+    "texto": "A faixa de serviço fica junto à guia, tem largura mínima de 70 cm e serve para mobiliário urbano, vegetação e postes. A faixa de acesso só existe em calçadas com mais de 2 m e pode ter rampa de acesso a estacionamento com inclinação de até 8,33%. Quando a largura não comporta três faixas, a calçada pode ser organizada em duas.",
+    "categoria": "calcada",
+    "orgao": "Prefeitura de Sao Paulo",
+    "link": "https://saopaulo.sp.leg.br/iah/fulltext/decretos/D59671.pdf",
+    "fonte_id": "F03"
+  },
+  {
+    "id": "T018",
+    "titulo": "Rebaixamento de guia e travessias",
+    "texto": "O rebaixamento de guia para entrada de veículos deve ficar na faixa de serviço ou de acesso sem invadir a faixa livre, não pode ocupar mais de 50% da testada do imóvel (salvo em casas unifamiliares) e é proibido nas esquinas. As travessias de pedestres devem ter rebaixamento de calçada ou travessia elevada, sem desnível em relação à pista.",
+    "categoria": "calcada",
+    "orgao": "Prefeitura de Sao Paulo",
+    "link": "https://saopaulo.sp.leg.br/iah/fulltext/decretos/D59671.pdf",
+    "fonte_id": "F03"
+  },
+  {
+    "id": "T019",
+    "titulo": "Calçada danificada por árvore",
+    "texto": "Quando uma árvore danifica a calçada, o responsável pelo imóvel fica dispensado da obrigação de manutenção na parte afetada até que a árvore seja cortada ou removida. Depois da remoção, ele tem 30 dias para regularizar a calçada. O plantio de árvores deve ficar dentro das faixas de serviço ou de acesso.",
+    "categoria": "calcada",
+    "orgao": "Prefeitura de Sao Paulo",
+    "link": "https://saopaulo.sp.leg.br/iah/fulltext/decretos/D59671.pdf",
+    "fonte_id": "F03"
+  },
+  {
+    "id": "T020",
+    "titulo": "Obstáculos proibidos e reclamações",
+    "texto": "O Decreto 59.671/2020 proíbe mobiliário urbano e postes na faixa livre, qualquer interferência nos rebaixamentos de travessia e instalações nas esquinas, com exceção de sinalização viária e postes de iluminação. Mobiliário instalado sem autorização fica sujeito às penalidades da Lei 15.442/2011, e as reclamações sobre calçadas devem ser feitas pelos canais de atendimento da Prefeitura.",
+    "categoria": "calcada",
+    "orgao": "Prefeitura de Sao Paulo",
+    "link": "https://saopaulo.sp.leg.br/iah/fulltext/decretos/D59671.pdf",
+    "fonte_id": "F03"
+  },
+  {
+    "id": "T021",
+    "titulo": "Lei 15.442/2011: faixa livre em qualquer calçada",
+    "texto": "A Lei Municipal 15.442/2011 determina que, qualquer que seja a largura do passeio, deve ser respeitada a faixa livre mínima de 1,20 m destinada à circulação de pedestres, sob pena de multa prevista no anexo da própria lei.",
+    "categoria": "calcada",
+    "orgao": "Camara Municipal de Sao Paulo",
+    "link": "https://www.saopaulo.sp.leg.br/iah/fulltext/leis/L15442.pdf",
+    "fonte_id": "F15"
+  },
+  {
+    "id": "T022",
+    "titulo": "Manutenção da calçada e prazo após multa",
+    "texto": "A manutenção da calçada cabe ao proprietário ou responsável pelo imóvel em frente a ela, o que inclui moradores, comércios, condomínios e órgãos de governo. Pelas regras municipais, depois da autuação há prazo de 30 dias para adequar a calçada, sob pena de nova multa.",
+    "categoria": "calcada",
+    "orgao": "Secretaria Municipal das Subprefeituras / PMSP",
+    "link": "https://prefeitura.sp.gov.br/subprefeituras/w/noticias/36935",
+    "fonte_id": "F16"
+  },
+  {
+    "id": "T023",
+    "titulo": "Serviços do SP156 para calçadas",
+    "texto": "Na categoria 'Rua e bairro' do SP156 existem serviços específicos para calçadas: 'Calçada particular - denunciar calçada danificada ou inexistente', 'Calçada pública - solicitar manutenção' e 'Acessibilidade - solicitar avaliação de obstáculo na calçada'.",
+    "categoria": "calcada",
+    "orgao": "Secretaria Municipal das Subprefeituras / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/subprefeituras/w/rua-e-bairro-1",
+    "fonte_id": "F09"
+  },
+  {
+    "id": "T024",
+    "titulo": "Outros serviços de 'Rua e bairro'",
+    "texto": "A categoria 'Rua e bairro' do SP156 também inclui: denunciar fiação solta na calçada, denunciar poste em mau estado, solicitar manutenção de guias, sarjetas e sarjetões, solicitar manutenção de vielas e escadarias e sugerir a construção de calçadas em áreas públicas e praças.",
+    "categoria": "canais",
+    "orgao": "Secretaria Municipal das Subprefeituras / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/subprefeituras/w/rua-e-bairro-1",
+    "fonte_id": "F09"
+  },
+  {
+    "id": "T025",
+    "titulo": "Padrão técnico do piso da calçada",
+    "texto": "A calçada deve ter superfície regular, contínua, firme e antiderrapante em qualquer condição de tempo, sem desníveis bruscos que dificultem a passagem. As tampas de inspeção de água, esgoto e telefone devem continuar acessíveis, sem criar degraus ou ressaltos ao redor.",
+    "categoria": "calcada",
+    "orgao": "Secretaria Municipal das Subprefeituras / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/subprefeituras/w/calcadas/37136",
+    "fonte_id": "F10"
+  },
+  {
+    "id": "T026",
+    "titulo": "Reparos e mobiliário na calçada",
+    "texto": "Reparos na faixa livre devem abranger toda a sua largura e manter o desenho original da calçada. Particulares só podem instalar mobiliário urbano na faixa de serviço com autorização da subprefeitura.",
+    "categoria": "calcada",
+    "orgao": "Secretaria Municipal das Subprefeituras / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/subprefeituras/w/calcadas/37136",
+    "fonte_id": "F10"
+  },
+  {
+    "id": "T027",
+    "titulo": "Como pedir manutenção da iluminação pública",
+    "texto": "Para lâmpadas apagadas, queimadas, piscando ou acesas durante o dia, o morador deve acionar a Central SP156 ou a SP Regula Iluminação Pública pelo 0800 779 0156, ligação gratuita com atendimento 24 horas. Uma equipe técnica vai ao local avaliar o equipamento e, constatado o problema, executa o reparo.",
+    "categoria": "iluminacao",
+    "orgao": "SP Regula / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/spregula/w/iluminacao_publica/noticias/328582",
+    "fonte_id": "F06"
+  },
+  {
+    "id": "T028",
+    "titulo": "Quando pedir manutenção de iluminação",
+    "texto": "A manutenção de iluminação pública deve ser pedida para reparos em lâmpada, luminária ou poste de luz metálico, quando a luz estiver apagada ou piscando à noite, ou quando estiver acesa nos períodos da manhã e da tarde.",
+    "categoria": "iluminacao",
+    "orgao": "SP Regula / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/spregula/w/iluminacao_publica/renovar/4603",
+    "fonte_id": "F05"
+  },
+  {
+    "id": "T029",
+    "titulo": "Rua sem luz ou casa sem energia",
+    "texto": "Se apenas a iluminação da rua apagou, o pedido vai para o serviço de iluminação pública da Prefeitura (0800 779 0156). Se a casa também ficou sem energia, ou há falta e oscilação de energia dentro do imóvel, a responsável é a distribuidora de energia elétrica, já que a Prefeitura cuida apenas da iluminação das vias públicas.",
+    "categoria": "iluminacao",
+    "orgao": "SP Regula / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/spregula/iluminacao_publica/perguntas_frequentes",
+    "fonte_id": "F04"
+  },
+  {
+    "id": "T030",
+    "titulo": "Fio partido e furto de cabos",
+    "texto": "Fio partido soltando faíscas é uma situação de urgência: acione imediatamente a distribuidora de energia ou o serviço de iluminação pública e mantenha distância. Furto de fios e vandalismo devem ser comunicados à Polícia Militar pelo 190; a reposição de cabos furtados pode levar até 15 dias, porque depende de boletim de ocorrência e liberação policial.",
+    "categoria": "emergencia",
+    "orgao": "SP Regula / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/spregula/iluminacao_publica/perguntas_frequentes",
+    "fonte_id": "F04"
+  },
+  {
+    "id": "T031",
+    "titulo": "Iluminação de praças e prédios públicos",
+    "texto": "A iluminação de praças, parques e monumentos municipais é mantida pela Prefeitura, e o reparo é pedido pelo mesmo canal da iluminação pública. Já prédios públicos como escolas, hospitais e delegacias têm a iluminação cuidada pelas próprias instituições responsáveis.",
+    "categoria": "iluminacao",
+    "orgao": "SP Regula / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/spregula/iluminacao_publica/perguntas_frequentes",
+    "fonte_id": "F04"
+  },
+  {
+    "id": "T032",
+    "titulo": "Novo ponto de iluminação (SAIP)",
+    "texto": "Para pedir um novo ponto de iluminação onde não há poste, o morador preenche na subprefeitura o formulário 'Solicitação de Ampliação de Iluminação Pública' (SAIP), com o máximo de informações sobre o local. A subprefeitura analisa a necessidade e impedimentos legais ou ambientais e encaminha ao órgão de iluminação, que verifica a viabilidade técnica. As etapas são pedido, vistoria, planejamento, projeto, programação e execução; o serviço é gratuito e o prazo segue o programa de ampliação.",
+    "categoria": "iluminacao",
+    "orgao": "PMSP",
+    "link": "https://prefeitura.sp.gov.br/w/servico/ampliacao-novo-ponto-de-iluminacao-publica",
+    "fonte_id": "F17"
+  },
+  {
+    "id": "T033",
+    "titulo": "Isenção da COSIP",
+    "texto": "A contribuição para custeio da iluminação pública (COSIP) pode ter isenção quando o consumidor é classificado como baixa renda pela distribuidora ou quando o imóvel está em via sem iluminação pública. No segundo caso, leve à subprefeitura a última conta de energia com a cobrança; o local é vistoriado e, se procedente, a isenção é concedida.",
+    "categoria": "iluminacao",
+    "orgao": "SP Regula / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/spregula/iluminacao_publica/perguntas_frequentes",
+    "fonte_id": "F04"
+  },
+  {
+    "id": "T034",
+    "titulo": "Transformador fazendo barulho",
+    "texto": "É normal que transformadores e chaves de iluminação pública façam barulho, e isso não exige manutenção. Como a maioria dos transformadores pertence à distribuidora de energia, reclamações sobre eles devem ser feitas à distribuidora.",
+    "categoria": "iluminacao",
+    "orgao": "SP Regula / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/spregula/iluminacao_publica/perguntas_frequentes",
+    "fonte_id": "F04"
+  },
+  {
+    "id": "T035",
+    "titulo": "Como pedir poda ou remoção de árvore",
+    "texto": "Qualquer morador pode pedir poda ou remoção de árvore em área pública pelo telefone 156, pelo Portal SP156 ou presencialmente na subprefeitura. No portal é preciso informar a localização, o motivo e se há risco iminente aos demais moradores, podendo anexar fotos e vídeos; no atendimento presencial, leve RG e CPF.",
+    "categoria": "arvore",
+    "orgao": "Subprefeitura Butanta / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/butanta/w/saiba-como-solicitar-nossos-servi%C3%A7os-de-poda-e-remo%C3%A7%C3%A3o-de-%C3%A1rvores",
+    "fonte_id": "F07"
+  },
+  {
+    "id": "T036",
+    "titulo": "Vistoria e laudo da árvore",
+    "texto": "Após o pedido, um engenheiro agrônomo da subprefeitura vistoria a árvore e emite um laudo técnico indicando poda ou remoção. O laudo é publicado no Diário Oficial do Município, o morador tem cinco dias para contestá-lo e depois as equipes são programadas.",
+    "categoria": "arvore",
+    "orgao": "Subprefeitura Butanta / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/butanta/w/saiba-como-solicitar-nossos-servi%C3%A7os-de-poda-e-remo%C3%A7%C3%A3o-de-%C3%A1rvores",
+    "fonte_id": "F07"
+  },
+  {
+    "id": "T037",
+    "titulo": "Prazo de poda e ouvidoria",
+    "texto": "Na Subprefeitura Butantã, o prazo para atender pedidos de poda ou remoção é de até 120 dias. Se o serviço não for feito no prazo, o morador pode reclamar na Ouvidoria pelo 156 informando o número de protocolo. O plantio de árvores em áreas públicas também pode ser pedido e é gratuito, e árvores removidas são repostas.",
+    "categoria": "arvore",
+    "orgao": "Subprefeitura Butanta / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/butanta/w/saiba-como-solicitar-nossos-servi%C3%A7os-de-poda-e-remo%C3%A7%C3%A3o-de-%C3%A1rvores",
+    "fonte_id": "F07"
+  },
+  {
+    "id": "T038",
+    "titulo": "Limpeza de bocas de lobo e galerias",
+    "texto": "A Prefeitura faz a limpeza e desobstrução de bocas de lobo, galerias e ramais para manter o escoamento da água e evitar alagamentos causados por detritos e entulho acumulados nas chuvas. O serviço é solicitado pela Central 156 ou na praça de atendimento da subprefeitura.",
+    "categoria": "drenagem",
+    "orgao": "Subprefeitura Santana/Tucuruvi / PMSP",
+    "link": "https://prefeitura.sp.gov.br/web/santana_tucuruvi/w/zeladoria_urbana/68187",
+    "fonte_id": "F08"
+  },
+  {
+    "id": "T039",
+    "titulo": "Telefones de emergência e alertas",
+    "texto": "Em emergências, ligue para a Defesa Civil no 199 ou para o Corpo de Bombeiros no 193. Para receber alertas de risco gratuitos por SMS, envie o seu CEP para o número 40199.",
+    "categoria": "emergencia",
+    "orgao": "SEMIL - Governo do Estado de SP",
+    "link": "https://semil.sp.gov.br/educacaoambiental/?p=16923",
+    "fonte_id": "F11"
+  },
+  {
+    "id": "T040",
+    "titulo": "Ruas alagadas",
+    "texto": "Não atravesse ruas alagadas a pé ou de carro, pois a água pode subir rápido e há risco de afogamento e de choque elétrico. Procure locais mais altos e evite contato com a água da enchente, usando luvas e botas se necessário, para reduzir o risco de doenças como a leptospirose.",
+    "categoria": "emergencia",
+    "orgao": "SEMIL - Governo do Estado de SP",
+    "link": "https://semil.sp.gov.br/educacaoambiental/?p=16923",
+    "fonte_id": "F11"
+  },
+  {
+    "id": "T041",
+    "titulo": "Árvores, postes e fios durante tempestades",
+    "texto": "Durante ventania e tempestade, fique longe de árvores, postes e estruturas soltas. Mantenha distância segura de árvores caídas e nunca toque em cabos ou fios elétricos caídos; se estiver dirigindo, não pare perto de redes elétricas.",
+    "categoria": "emergencia",
+    "orgao": "SEMIL - Governo do Estado de SP",
+    "link": "https://semil.sp.gov.br/educacaoambiental/?p=16923",
+    "fonte_id": "F11"
+  },
+  {
+    "id": "T042",
+    "titulo": "Sinais de risco de desabamento",
+    "texto": "Se aparecerem trincas no teto ou nas paredes, ou paredes estufadas, saia imediatamente do imóvel, porque pode haver risco de desabamento, e siga as orientações da Defesa Civil.",
+    "categoria": "emergencia",
+    "orgao": "SEMIL - Governo do Estado de SP",
+    "link": "https://semil.sp.gov.br/educacaoambiental/?p=16923",
+    "fonte_id": "F11"
+  },
+  {
+    "id": "T043",
+    "titulo": "CTB art. 94: obstáculos devem ser sinalizados",
+    "texto": "O artigo 94 do Código de Trânsito Brasileiro determina que todo obstáculo à livre circulação e à segurança de veículos e pedestres, tanto na pista quanto na calçada, que não possa ser retirado, deve ser sinalizado de forma imediata e adequada. Deixar de sinalizar o obstáculo é infração prevista no artigo 246 do CTB.",
+    "categoria": "obstaculo_sinalizacao",
+    "orgao": "Presidencia da Republica / CTB Digital",
+    "link": "http://www.planalto.gov.br/ccivil_03/leis/L9503.htm",
+    "fonte_id": "F18"
+  },
+  {
+    "id": "T044",
+    "titulo": "CTB art. 94: lombadas",
+    "texto": "O parágrafo único do artigo 94 do CTB proíbe o uso de lombadas como redutores de velocidade, exceto em casos especiais definidos pelo CONTRAN e seguindo os padrões técnicos estabelecidos por ele.",
+    "categoria": "obstaculo_sinalizacao",
+    "orgao": "Presidencia da Republica / CTB Digital",
+    "link": "http://www.planalto.gov.br/ccivil_03/leis/L9503.htm",
+    "fonte_id": "F18"
+  },
+  {
+    "id": "T045",
+    "titulo": "ZelaCidade não substitui o SP156",
+    "texto": "A ZelaCidade é um mapa colaborativo de ocorrências em espaços públicos e não substitui os canais oficiais como o SP156. Um registro na ZelaCidade não gera protocolo na Prefeitura; para que o poder público seja acionado oficialmente, o morador também deve abrir a solicitação no SP156.",
+    "categoria": "plataforma",
+    "orgao": "Equipe ZelaCidade",
+    "link": null,
+    "fonte_id": "F19"
+  },
+  {
+    "id": "T046",
+    "titulo": "Como registrar uma ocorrência na ZelaCidade",
+    "texto": "Na ZelaCidade, o morador envia uma foto, marca o local no mapa e descreve a ocorrência. O sistema usa IA para sugerir a categoria do problema, outros moradores podem confirmar a ocorrência e acrescentar evidências, e todos acompanham as atualizações em um mapa e em um painel.",
+    "categoria": "plataforma",
+    "orgao": "Equipe ZelaCidade",
+    "link": null,
+    "fonte_id": "F19"
+  },
+  {
+    "id": "T047",
+    "titulo": "Transparência dos status na ZelaCidade",
+    "texto": "A ZelaCidade separa ocorrências reais, dados de fontes públicas e dados simulados. Sem integração oficial com a Prefeitura, a plataforma não exibe status como 'prefeitura recebeu' ou 'reparo concluído' sem evidência; a conclusão só é marcada quando a comunidade envia evidência, como uma nova foto do local consertado.",
+    "categoria": "plataforma",
+    "orgao": "Equipe ZelaCidade",
+    "link": null,
+    "fonte_id": "F19"
+  }
+]

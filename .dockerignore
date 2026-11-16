@@ -1,0 +1,15 @@
+.git
+.github
+.env
+**/node_modules
+**/dist
+**/__pycache__
+**/.pytest_cache
+**/*.db
+terraform
+terraform-azure
+monitoring
+ops
+nginx
+docs
+makerlab

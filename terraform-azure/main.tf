@@ -42,15 +42,26 @@ resource "azurerm_linux_web_app" "main" {
     }
   }
 
+  # O container do MVP (FastAPI + React) escuta na porta 8000.
   app_settings = {
-    WEBSITES_PORT = "80"
+    WEBSITES_PORT = "8000"
   }
 
   # A pipeline troca a tag da imagem a cada commit. O Terraform gerencia a
   # infraestrutura, mas nao deve desfazer o deploy realizado pelo CI/CD.
+  # Os segredos do MVP sao cadastrados fora do Terraform (App Settings) e nao
+  # podem ser apagados por um apply: por isso ficam fora do state.
   lifecycle {
     ignore_changes = [
       app_settings["WEBSITES_ENABLE_APP_SERVICE_STORAGE"],
+      app_settings["DATABASE_URL"],
+      app_settings["ROBOT_API_KEY"],
+      app_settings["RPA_API_KEY"],
+      app_settings["EXPORT_API_KEY"],
+      app_settings["ADMIN_TOKEN"],
+      app_settings["HASH_SALT"],
+      app_settings["GENAI_API_URL"],
+      app_settings["GENAI_API_KEY"],
       site_config[0].application_stack[0].docker_image_name,
       site_config[0].application_stack[0].docker_registry_url,
     ]
